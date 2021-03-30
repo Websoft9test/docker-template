@@ -22,6 +22,8 @@ The following are the minimal recommended requirements:
 
 To learn more, refer to the [Recommended System Requirements](https://github.com/ONLYOFFICE/Docker-CommunityServer#recommended-system-requirements): 
 
+## Installation
+
 ### Preparation
 
 If you have not install Docker and Docker-Compose, refer to the following commands to install it:
