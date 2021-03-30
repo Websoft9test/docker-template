@@ -45,7 +45,8 @@ docker-compose up -d
 
 ## 参数
 
-* **服务及端口**:
+### 服务及端口
+
 | 服务       | 端口号                                  | 容器名                 |
 | ---------- | ------------------------------------- | -------------------- |
 | ONLYOFFICE CommunityServer   | 9003 | onlyoffice-mysql-server         |
