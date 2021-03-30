@@ -20,7 +20,7 @@
 * **Swap分区**: 2GB以上
 * **Docker版本**: 1.9.0以上
 
-更多配置信息请参照 [系统配置](https://github.com/ONLYOFFICE/Docker-CommunityServer#recommended-system-requirements): 
+更多配置信息请参照[系统配置](https://github.com/ONLYOFFICE/Docker-CommunityServer#recommended-system-requirements)
 
 ## 预安装
 
@@ -46,8 +46,8 @@ docker-compose up -d
 ## 参数
 
 * **服务及端口**: 
-| 服务 | 端口号 | 容器名 |  必要性 |
-| --- | --- | --- | --- |
+| 服务 | 端口号 | 容器名 |  必要性 |  
+| --- | --- | --- | --- |  
 | ONLYOFFICE CommunityServer | 9003 | onlyoffice-mysql-server | 必须 |
 | phpMyAdmins | 9090 | onlyoffice-community-server | 必须 |
 | ONLYOFFICE DocumentServer | 9002 | onlyoffice-document-server | 必须 |
