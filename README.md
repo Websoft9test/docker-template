@@ -22,7 +22,7 @@ The following are the minimal recommended requirements:
 
 To learn more, refer to the [Recommended System Requirements](https://github.com/ONLYOFFICE/Docker-CommunityServer#recommended-system-requirements): 
 
-## Pre-Installation
+### Preparation
 
 If you have not install Docker and Docker-Compose, refer to the following commands to install it:
 
@@ -33,15 +33,24 @@ sudo chmod +x /usr/local/bin/docker-compose
 ln -sf /usr/local/bin/docker-compose  /usr/bin
 ```
 
-## Installation
+### Use docker-compose
 
 We assume that you are already familiar with Docker, and you can modify [docker-compose file](docker-compose.workspace.yml) by yourself
 
 ```
-git clone --depth=1 https://github.com/Websoft9/docker-onlyofficecommunityserver
-cd docker-onlyofficecommunityserver
+git clone --depth=1 https://github.com/Websoft9/docker-onlyoffice
+cd docker-knowagecommunityserver
 docker-compose up -d
 ```
+
+### Start using
+
+You can point your browser to: *http://Instance Internet IP:9003*  
+By default, the available users are:
+
+| User    | Password |
+| ------- | -------- |
+| admin | 123456  |
 
 ## Parameters
 
