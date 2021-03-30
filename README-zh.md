@@ -1,4 +1,4 @@
-# 安装Docker版ONLYOFFICE
+# Docker版ONLYOFFICE
 
 ![](https://libs.websoft9.com/common/websott9-cloud-installer.png) 
 
@@ -70,10 +70,10 @@ docker-compose up -d
 
 ## 常见问题
 
-#### 启动Docker应用前需要更改密码吗？
+#### 启动ONLYOFFICE前需要更改密码吗？
 
 是的, 在生产环境中，您应该在docker compose文件中修改所有数据库密码和应用程序密码
 
-#### 应用默认的用户名和密码是什么？
+#### ONLYOFFICE默认的用户名和密码是什么？
 
 请参照[docker-compose file](docker-compose.yml)的上方注释区域
