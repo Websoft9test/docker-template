@@ -45,12 +45,13 @@ docker-compose up -d
 
 ## 参数
 
-* **服务及端口**: 
-| 服务 | 端口号 | 容器名 |  必要性 |  
-| --- | --- | --- | --- |  
-| ONLYOFFICE CommunityServer | 9003 | onlyoffice-mysql-server | 必须 |
-| phpMyAdmins | 9090 | onlyoffice-community-server | 必须 |
-| ONLYOFFICE DocumentServer | 9002 | onlyoffice-document-server | 必须 |
+* **服务及端口**:
+| 服务       | 端口号                                  | 容器名                 |
+| ---------- | ------------------------------------- | -------------------- |
+| ONLYOFFICE CommunityServer   | 9003 | onlyoffice-mysql-server         |
+| phpMyAdmins     | 9090    |       onlyoffice-community-server               |
+| ONLYOFFICE DocumentServer     | 9002    |         onlyoffice-document-server             |
+
 
 ## 如何购买
 
