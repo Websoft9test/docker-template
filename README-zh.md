@@ -66,7 +66,7 @@ docker-compose up -d
 
 * [文档](https://support.websoft9.com/docs/onlyoffice)
 * [记录](/CHANGELOG.md)
-* [许可证](/License.md)
+* [许可证](/LICENSE.md)
 
 ## 常见问题
 

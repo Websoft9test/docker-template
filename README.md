@@ -73,7 +73,7 @@ What you get with a Enterprise subscription?
 
 * [Documentation](https://support.websoft9.com/docs/onlyoffice)
 * [CHANGELOG](/CHANGELOG.md)
-* [License](/License.md)
+* [License](/LICENSE.md)
 
 ## FAQ
 
