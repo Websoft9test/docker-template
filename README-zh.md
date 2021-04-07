@@ -43,6 +43,15 @@ cd docker-onlyofficecommunityserver
 docker-compose up -d
 ```
 
+### 开始使用
+
+您可以通过输入如下URL进行登录: *http://Instance Internet IP:9100*  
+默认用户名和密码为:
+
+| 用户名    | 密码 |
+| ------- | -------- |
+|  admin | 123456  |
+
 ## 参数（服务及端口）
 
 | 服务       | 端口号                                  | 容器名                 |
