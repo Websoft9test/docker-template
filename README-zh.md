@@ -35,18 +35,17 @@ ln -sf /usr/local/bin/docker-compose  /usr/bin
 
 ## 安装应用
 
-如果你对Docker应用很熟悉，你可以修改[docker-compose file](docker-compose.yml)来满足自己特定需求 
+如果你对Docker应用很熟悉，你可以修改[docker-compose file](docker-compose-production.yml)来满足自己特定需求 
 
 ```
-git clone --depth=1 https://github.com/Websoft9/docker-onlyofficecommunityserver
-cd docker-onlyofficecommunityserver
-docker-compose up -d
+git clone --depth=1 https://github.com/Websoft9/docker-onlyoffice
+cd docker-onlyoffice
+docker-compose -f docker-compose-production.yml up -d
 ```
 
 ### 开始使用
 
-您可以通过输入如下URL进行登录: *http://Instance Internet IP:9100*  
-默认用户名和密码为:
+您可以通过输入如下URL进行登录: *http://Instance Internet IP:9100*，默认用户名和密码为:
 
 | 用户名    | 密码 |
 | ------- | -------- |
@@ -85,4 +84,4 @@ docker-compose up -d
 
 #### ONLYOFFICE默认的用户名和密码是什么？
 
-请参照[docker-compose file](docker-compose.yml)的上方注释区域
+请参照[docker-compose file](docker-compose-production.yml)的上方注释区域
