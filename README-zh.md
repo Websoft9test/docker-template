@@ -42,7 +42,7 @@ ln -sf /usr/local/bin/docker-compose  /usr/bin
 ```
 git clone --depth=1 https://github.com/Websoft9/docker-onlyoffice
 cd docker-onlyoffice
-docker-compose -f docker-compose-production.yml up -d
+sudo docker-compose -f docker-compose-production.yml up -d
 ```
 
 ### 常见问题
