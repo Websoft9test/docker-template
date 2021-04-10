@@ -10,7 +10,7 @@
 
 ## 系统要求
 
-安装本项目，确保符合如下的条件：
+安装本项目，确保符合如下的条件（[详细参考](https://github.com/ONLYOFFICE/docker#recommended-system-requirements)）：
 
 * **操作系统**: Red Hat、CentOS、Debian、Ubuntu或兼容内核kernel3.8后的其他操作系统
 * **CPU架构**: AMD64
@@ -18,9 +18,6 @@
 * **CPU**: 2核以上
 * **存储**: 2GB以上
 * **Swap分区**: 2GB以上
-* **Docker版本**: 1.9.0以上
-
-更多系统要求[参照](https://github.com/ONLYOFFICE/docker#recommended-system-requirements)
 
 ## 安装使用
 
