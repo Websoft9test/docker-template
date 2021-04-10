@@ -20,7 +20,7 @@
 * **Swap分区**: 2GB以上
 * **Docker版本**: 1.9.0以上
 
-更多系统要求请参照[此处](https://github.com/ONLYOFFICE/docker#recommended-system-requirements)
+更多系统要求[参照](https://github.com/ONLYOFFICE/docker#recommended-system-requirements)
 
 ## 安装使用
 
