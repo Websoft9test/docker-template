@@ -61,9 +61,10 @@ docker-compose -f docker-compose-production.yml up -d
 
 #### 服务和端口
 
-| 服务       | 端口号                                  | 容器名                 |
-| ---------- | ------------------------------------- | -------------------- |
-| ONLYOFFICE   | 9003 | onlyoffice-server         |      |
+| 名称 | 端口号 | 用途 |  必要性 |
+| --- | --- | --- | --- |
+| TCP | 9100 | ONLYOFFICE 端口 | 必选 |
+| TCP | 9090 | 数据库可视化管理工具 phpPgAdmin | 可选 |
 
 ## 文档
 
@@ -71,13 +72,13 @@ docker-compose -f docker-compose-production.yml up -d
 
 ## 企业级支持
 
-我们在主流云平台上发布了*ONLYOFFICE CommunityServer*，您可以通过[购买ONLYOFFICE](https://apps.websoft9.com/onlyoffice)自动部署它并获得我们的企业支持，以确保应用程序的高可用性。
+如果需要企业级支持，请订阅我们提供的 [ONLYOFFICE 企业级支持版](https://apps.websoft9.com/onlyoffice) 
 
-购买后可享受哪些服务：
+订阅企业级产品后，您可获得：
 
-* 知识：产品专家的解答和指导
-* 支持：技术支持所需的一切，例如启用HTTPS、升级指南
-* 安全：安全服务和工具，可提高您软件的安全性
+* 精准知识：产品专家的解答和指导
+* 全面支持：技术支持所需的一切，例如启用HTTPS、升级指南
+* 安全顾问：安全服务和工具，可提高您软件的安全性
 
 ## 常见问题
 
