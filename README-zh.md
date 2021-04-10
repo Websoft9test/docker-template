@@ -1,4 +1,4 @@
-# Docker版ONLYOFFICE
+# ONLYOFFICE on Docker
 
 ![](https://libs.websoft9.com/common/websott9-cloud-installer.png) 
 
@@ -6,7 +6,7 @@
 
  [简体中文](/README-zh.md) | [English](/README.md) 
 
-本项目是由[Websoft9](https://www.websoft9.com) 基于[ONLYOFFICE 官方Docker](https://github.com/ONLYOFFICE/Docker-CommunityServer)研发的云原生**ONLYOFFICE**程序。程序进行了预配置，用户使用一条命令即可自动完成安装， 大大简化了复杂的安装以及配置过程。
+本项目是由[Websoft9](https://www.websoft9.com) 基于[ONLYOFFICE 官方Docker](https://github.com/ONLYOFFICE/docker)研发的云原生**ONLYOFFICE**程序。程序进行了预配置，用户使用一条命令即可自动完成安装， 大大简化了复杂的安装以及配置过程。
 
 ## 配置要求
 
@@ -20,7 +20,7 @@
 * **Swap分区**: 2GB以上
 * **Docker版本**: 1.9.0以上
 
-更多配置信息请参照[系统配置](https://github.com/ONLYOFFICE/Docker-CommunityServer#recommended-system-requirements)
+更多配置信息请参照[系统配置](https://github.com/ONLYOFFICE/docker#recommended-system-requirements)
 
 ## 预安装
 
