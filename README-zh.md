@@ -60,7 +60,7 @@ docker-compose -f docker-compose-production.yml up -d
 | ONLYOFFICE DocumentServer     | 9002    |         onlyoffice-document-server             |
 
 
-## 如何购买
+## 企业级支持
 
 我们在主流云平台上发布了*ONLYOFFICE CommunityServer*，您可以通过[购买ONLYOFFICE](https://apps.websoft9.com/onlyoffice)自动部署它并获得我们的企业支持，以确保应用程序的高可用性。
 
