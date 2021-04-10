@@ -24,7 +24,7 @@
 
 ## 安装使用
 
-### 自动安装
+### 自动安装（推荐）
 
 登录 Linux，运行下面的**自动化命令**即可启动安装并显示安装结果。  
 
@@ -33,6 +33,8 @@ sudo wget -N https://download.websoft9.com/docker/install.sh; sudo bash install.
 ```
 
 ### 手动安装
+
+如果熟悉 Linux 以及 Docker，可以采用手动安装的方式
 
 #### 准备 Docker 环境
 
