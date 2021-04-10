@@ -15,6 +15,7 @@ jobs:
        pip install jinja2-cli
        jinja2 README-zh.jinja2 variables.json  > README-zh.md
        jinja2 README.jinja2 variables.json  > README.md
-       git add -A
-       git commit -m "templating"
-       git push
+       
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Apply php-cs-fixer changes
