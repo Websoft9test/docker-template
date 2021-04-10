@@ -8,7 +8,7 @@
 
 本项目是由 [Websoft9](https://www.websoft9.com) 基于[ONLYOFFICE 官方 Docker](https://github.com/ONLYOFFICE/docker)研发的**云原生 ONLYOFFICE** 程序。默认进行了预配置，用户使用一条命令即可完成安装，大大简化了应用软件复杂的安装以及配置过程。
 
-## 配置要求
+## 系统要求
 
 安装本项目，确保符合如下的条件：
 
