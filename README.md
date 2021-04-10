@@ -1,4 +1,4 @@
-# ONLYOFFICE Docker
+# ONLYOFFICE on Docker
 
 ![](https://libs.websoft9.com/common/websott9-cloud-installer.png) 
 
@@ -6,20 +6,21 @@
 
 [English](/README.md) | [简体中文](/README-zh.md)  
 
-This repository is an **Cloud Native solution** powered by [Websoft9](https://www.websoft9.com) to for installing [ONLYOFFICE](https://github.com/ONLYOFFICE/Docker-CommunityServer) and pre-configure required items automatically and users only need to run a command on Linux. It simplifies the complicated installation and initialization process.  
+This repository is an **Cloud Native solution** powered by [Websoft9](https://www.websoft9.com) to for installing [ONLYOFFICE](https://github.com/ONLYOFFICE/docker#recommended-system-requirements) and pre-configure required items automatically and users only need to run a command on Linux. It simplifies the complicated installation and initialization process.  
 
 ## System Requirements
 
-The following are the minimal [recommended requirements](https://github.com/ONLYOFFICE/Docker-CommunityServer#recommended-system-requirements):
+The following are the minimal [recommended requirements](https://github.com/ONLYOFFICE/docker#recommended-system-requirements):
 
-* **OS**: 64-bit Red Hat, CentOS, 64-bit Debian, Ubuntu or other compatible distributive with kernel version 3.8 or later
+* **OS**: Red Hat, CentOS, Debian, Ubuntu or other's Linux OS
 * **Public Cloud**: More than 20+ major Cloud such as AWS, Azure, Google Cloud, Alibaba Cloud, HUAWEIClOUD, Tencent Cloud
 * **Private Cloud**: KVM, VMware, VirtualBox, OpenStack
-* **ARCH**: amd64
+* **ARCH**:  Linux x86-64, ARM 32/64, Windows x86-64, IBM POWER8, x86/i686
 * **RAM**: 4 GB or more
-* **CPU**: dual-core 2 GHz or higher
-* **HDD**: at least 2 GB of free space
-* **Swap file**: at least 2 GB
+* **CPU**: 2 cores or higher
+* **HDD**: at least 20 GB of free space
+* **Swap file**: at least 22 GB
+* **bandwidth**: more fluent experience over 100M  
 
 ## QuickStart
 
@@ -44,7 +45,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 ln -sf /usr/local/bin/docker-compose  /usr/bin
 ```
 
-#### Use docker-compose
+#### Install ONLYOFFICE
 
 We assume that you are already familiar with Docker, and you can modify [docker-compose file](docker-compose-production.yml) by yourself
 
@@ -62,9 +63,15 @@ Yes, you should modify all database password and application password at docker-
 #### Docker runing failed for the reason that port conflict?
 You should modify ports at [docker-compose file](docker-compose-production.yml) and docker-compose again
 
+#### 问题1  
+答案1  
+
+#### 问题2  
+答案2  
+
 ### Usage instructions
 
-You can point your browser to: *http://Instance's Internet IP:9003*  
+You can point your browser to: *http://Instance's Internet IP:9002*  
 
 The following is the information that may be needed during use
 
@@ -74,16 +81,14 @@ By default, the available users are:
 
 | User    | Password |
 | ------- | -------- |
-| admin | 123456  |
+|  admin | 123456  |
 
 #### Services and Ports
 
 | Service | Port | Use |  Necessity |
 | --- | --- | --- | --- |
-| onlyoffice-server | 9003 | HTTP to access ONLYOFFICE | Required |
-| onlyoffice-mysql-server | 3306 | Remote to access MySQL | Optional |
-| phpmyadmin | 9090 | phpMyAdmin on Docker | Optional |
-
+| onlyoffice-server | 9002 | Web-GUI database management tool | Y |
+| phpmyadmin | 9090 | Web-GUI database management tool | Y |
 ## Documentation
 
 [ONLYOFFICE Administrator Guide](https://support.websoft9.com/docs/onlyoffice)
