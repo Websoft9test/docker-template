@@ -78,11 +78,11 @@ By default, the available users are:
 
 #### Services and Ports
 
-| Name | Number | Use |  Necessity |
+| Service | Port | Use |  Necessity |
 | --- | --- | --- | --- |
-| TCP | 9003 | HTTP to access ONLYOFFICE | Required |
-| TCP | 3306 | Remote to access MySQL | Optional |
-| TCP | 9090 | phpMyAdmin on Docker | Optional |
+| onlyoffice-server | 9003 | HTTP to access ONLYOFFICE | Required |
+| onlyoffice-mysql-server | 3306 | Remote to access MySQL | Optional |
+| phpmyadmin | 9090 | phpMyAdmin on Docker | Optional |
 
 ## Documentation
 
