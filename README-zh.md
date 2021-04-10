@@ -51,23 +51,24 @@ docker-compose -f docker-compose-production.yml up -d
 
 下面是使用过程中可能需要了解的参数
 
-#### 用户名和密码
+#### 账号
+
+本应用默认安装后的管理员用户名和密码如下：
 
 | 用户名    | 密码 |
 | ------- | -------- |
 |  admin | 123456  |
 
-#### 服务及端口
+#### 服务和端口
 
 | 服务       | 端口号                                  | 容器名                 |
 | ---------- | ------------------------------------- | -------------------- |
 | ONLYOFFICE   | 9003 | onlyoffice-server         |      |
 
+#### 文档
 
-#### 资源
-
-* [文档](https://support.websoft9.com/docs/onlyoffice)
-* [修改日志](/CHANGELOG.md)
+* [ONLYOFFICE 管理员手册](https://support.websoft9.com/docs/onlyoffice)
+* [日志](/CHANGELOG.md)
 
 ## 企业级支持
 
