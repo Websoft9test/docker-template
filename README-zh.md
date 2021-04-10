@@ -24,7 +24,17 @@
 
 ## 安装使用
 
-### 准备 Docker 环境
+### 自动安装
+
+以 root 用户登录 Linux，运行下面的**一键自动化安装命令**即可启动自动化部署。若没有 root 用户，请以其他用户登录 Linux 后运行 `sudo su -` 命令提升为 root 权限，然后再运行下面的脚本。
+
+```
+wget -N https://raw.githubusercontent.com/Websoft9/ansible-linux/main/scripts/install.sh; bash install.sh -r mingdao
+```
+
+### 手动安装
+
+#### 准备 Docker 环境
 
 如果您的服务器尚未安装 Docker，请使用如下命令安装它：
 
@@ -35,7 +45,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 ln -sf /usr/local/bin/docker-compose  /usr/bin
 ```
 
-### 安装 ONLYOFFICE
+#### 安装 ONLYOFFICE
 
 直接运行下面的命令快速安装应用。如果你熟悉 Docker，建议先修改 [docker-compose](docker-compose-production.yml) 文件以满足自己的需求
 
