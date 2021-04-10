@@ -37,7 +37,7 @@ ln -sf /usr/local/bin/docker-compose  /usr/bin
 
 ### 安装 ONLYOFFICE
 
-直接运行下面的命令快速安装应用。如果你熟悉 Docker，建议修改 [docker-compose](docker-compose-production.yml) 文件来满足自己特定需求 
+直接运行下面的命令快速安装应用。如果你熟悉 Docker，建议先修改 [docker-compose](docker-compose-production.yml) 文件以满足自己的需求
 
 ```
 git clone --depth=1 https://github.com/Websoft9/docker-onlyoffice
@@ -49,7 +49,7 @@ docker-compose -f docker-compose-production.yml up -d
 
 启动应用后，本地浏览器访问 URL: *http://服务器公网IP:9100* 进入应用。  
 
-下面是使用过程中可能需要了解的参数
+下面是使用过程中可能需要的信息
 
 #### 账号
 
@@ -65,10 +65,9 @@ docker-compose -f docker-compose-production.yml up -d
 | ---------- | ------------------------------------- | -------------------- |
 | ONLYOFFICE   | 9003 | onlyoffice-server         |      |
 
-#### 文档
+## 文档
 
-* [ONLYOFFICE 管理员手册](https://support.websoft9.com/docs/onlyoffice)
-* [日志](/CHANGELOG.md)
+[ONLYOFFICE 管理员手册](https://support.websoft9.com/docs/onlyoffice)
 
 ## 企业级支持
 
