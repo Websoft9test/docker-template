@@ -2,7 +2,7 @@
   "name": "onlyoffice",
   "trademark": "ONLYOFFICE",
   "compose_file": "docker-compose-production.yml",
-  
+  "fork_url": "https://github.com/ONLYOFFICE/docker#recommended-system-requirements",
   "requirements":{
     "cpu_arch": "Linux x86-64, ARM 32/64, Windows x86-64, IBM POWER8, x86 / i686",
     "cpu": "2",
@@ -22,7 +22,7 @@
       "name": "onlyoffice-server",
       "port": "9002",
       "description_cn": "浏览器访问 ONLYOFFICE",
-      "description_en": "数据库可视化管理工具",
+      "description_en": "Web-GUI database management tool",
       "required": "Y"
     },
 
