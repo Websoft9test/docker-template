@@ -10,21 +10,30 @@ This repository is an **Cloud Native solution** powered by [Websoft9](https://ww
 
 ## System Requirements
 
-The following are the minimal recommended requirements:
+The following are the minimal [recommended requirements](https://github.com/ONLYOFFICE/Docker-CommunityServer#recommended-system-requirements):
 
 * **OS**: 64-bit Red Hat, CentOS, 64-bit Debian, Ubuntu or other compatible distributive with kernel version 3.8 or later
+* **Public Cloud**: More than 20+ major Cloud such as AWS, Azure, Google Cloud, Alibaba Cloud, HUAWEIClOUD, Tencent Cloud
+* **Private Cloud**: KVM, VMware, VirtualBox, OpenStack
 * **ARCH**: amd64
 * **RAM**: 4 GB or more
 * **CPU**: dual-core 2 GHz or higher
 * **HDD**: at least 2 GB of free space
 * **Swap file**: at least 2 GB
-* **Docker version**: 1.9.0 or later
 
-To learn more, refer to the [Recommended System Requirements](https://github.com/ONLYOFFICE/Docker-CommunityServer#recommended-system-requirements): 
+## QuickStart
 
-## Installation
+### All-in-one Installer
 
-### Preparation
+Use SSH to connect your instance and run the automatic installation script below
+
+```
+sudo wget -N https://download.websoft9.com/docker/install.sh; sudo bash install.sh -r onlyoffice
+```
+
+### Manual Installation
+
+#### Preparation
 
 If you have not install Docker and Docker-Compose, refer to the following commands to install it:
 
@@ -35,7 +44,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 ln -sf /usr/local/bin/docker-compose  /usr/bin
 ```
 
-### Use docker-compose
+#### Use docker-compose
 
 We assume that you are already familiar with Docker, and you can modify [docker-compose file](docker-compose-production.yml) by yourself
 
@@ -45,42 +54,46 @@ cd docker-onlyoffice
 docker-compose -f docker-compose-production.yml up -d
 ```
 
-### Start using
+### FAQ
 
-You can point your browser to: *http://Instance Internet IP:9003*  
+#### Do I need to change the password before docker-compose up?
+Yes, you should modify all database password and application password at docker-compose file for production
+
+#### Docker runing failed for the reason that port conflict?
+You should modify ports at [docker-compose file](docker-compose-production.yml) and docker-compose again
+
+### Usage instructions
+
+You can point your browser to: *http://Instance's Internet IP:9003*  
+
+The following is the information that may be needed during use
+
+#### Credentials
+
 By default, the available users are:
 
 | User    | Password |
 | ------- | -------- |
 | admin | 123456  |
 
-## Parameters
+#### Services and Ports
 
-* **Services**: ONLYOFFICE CommunityServer, ONLYOFFICE DocumentServer, phpMyAdmin, MySQL5.7
-* **Ports**: 9003 for ONLYOFFICE CommunityServer, 9090 for phpMyAdmin, 9002 for ONLYOFFICE DocumentServer
+| Name | Number | Use |  Necessity |
+| --- | --- | --- | --- |
+| TCP | 9003 | HTTP to access ONLYOFFICE | Required |
+| TCP | 3306 | Remote to access MySQL | Optional |
+| TCP | 9090 | phpMyAdmin on Docker | Optional |
 
-## Subscription
+## Documentation
 
-We have publish ONLYOFFICE CommunityServer on major Cloud Platform, just [subscribe it](https://apps.websoft9.com/onlyoffice) you can deployment it automatically and get our Enterprise Support to ensure high availability of applications.  
+[ONLYOFFICE Administrator Guide](https://support.websoft9.com/docs/onlyoffice)
 
-What you get with a Enterprise subscription?
+## Enterprise Support
+
+If you want to get our Enterprise Support to ensure high availability of applications, you can subscribe our [ONLYOFFICE Enterprise Support](https://apps.websoft9.com/onlyoffice) 
+
+What you get with a Enterprise Support subscription?
 
 * Knowledge: Answers and guidance from product experts
 * Support: Everything you need for technical support, e.g Enable HTTPS, Upgrade guide
 * Security: Security services and tools to protect your software
-
-## Links
-
-* [Documentation](https://support.websoft9.com/docs/onlyoffice)
-* [CHANGELOG](/CHANGELOG.md)
-* [License](/LICENSE.md)
-
-## FAQ
-
-#### Do I need to change the password before docker-compose up?
-
-Yes, you should modify all database password and application password at docker-compose file for production
-
-#### What the default username and password?
-
-Refer to comment area at the top of docker-compose file
