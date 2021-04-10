@@ -26,10 +26,10 @@
 
 ### 自动安装
 
-以 root 用户登录 Linux，运行下面的**自动化安装命令**即可启动自动化部署。若没有 root 用户，请以其他用户登录 Linux 后运行 `sudo su -` 命令提升为 root 权限，然后再运行下面的脚本。
+登录 Linux，运行下面的**自动化命令**即可启动安装并显示安装结果。  
 
 ```
-wget -N https://raw.githubusercontent.com/Websoft9/ansible-linux/main/scripts/install.sh; bash install.sh -r mingdao
+sudo wget -N https://download.websoft9.com/docker/install.sh; sudo bash install.sh -r onlyoffice
 ```
 
 ### 手动安装
