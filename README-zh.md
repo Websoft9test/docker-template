@@ -13,17 +13,20 @@
 安装本项目，确保符合如下的条件（[详细参考](https://github.com/ONLYOFFICE/docker#recommended-system-requirements)）：
 
 * **操作系统**: Red Hat、CentOS、Debian、Ubuntu或兼容内核kernel3.8后的其他操作系统
+* **公有云**: AWS, Azure, Google Cloud, 阿里云, 腾讯云, 华为云等20多个全球主流云
+* **私有云**: KVM, VMware, VirtualBox, OpenStack 等主流虚拟化架构
 * **CPU架构**: AMD64
 * **内存**: 4GB以上
 * **CPU**: 2核以上
 * **存储**: 2GB以上
 * **Swap分区**: 2GB以上
+* **带宽**: 100M 以上体验更流畅
 
 ## 安装使用
 
 ### 准备 Docker 环境
 
-如果服务器尚未安装Docker，请使用如下命令安装：
+如果您的服务器尚未安装 Docker，请使用如下命令安装它：
 
 ```
 curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
@@ -44,7 +47,7 @@ docker-compose -f docker-compose-production.yml up -d
 
 ### 常见问题
 
-#### 启动 ONLYOFFICE 前需要更改密码吗？
+#### 安装 ONLYOFFICE 前需要更改密码吗？
 
 是的, 在生产环境中，您应该在 docker-compose 文件中修改所有数据库密码和应用程序密码
 
