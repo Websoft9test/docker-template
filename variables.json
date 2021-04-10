@@ -9,7 +9,7 @@
     "memory": "4",
     "disk": "20",
     "swap": "2",
-    "url": "https://github.com/ONLYOFFICE/docker#recommended-system-requirements"
+    "url": "https://github.com/onlyoffice/docker#recommended-system-requirements"
   },
 
   "user": {
