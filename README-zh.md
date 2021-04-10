@@ -24,7 +24,7 @@
 
 ## 安装使用
 
-### 安装 Docker 环境
+### 准备 Docker 环境
 
 如果服务器尚未安装Docker，请使用如下命令安装：
 
@@ -35,9 +35,9 @@ sudo chmod +x /usr/local/bin/docker-compose
 ln -sf /usr/local/bin/docker-compose  /usr/bin
 ```
 
-### Docker-compose 启动应用
+### 安装 ONLYOFFICE
 
-如果你对Docker应用很熟悉，你可以修改 [docker-compose](docker-compose-production.yml) 文件来满足自己特定需求 
+直接运行下面的命令快速安装应用。如果你熟悉 Docker，建议修改 [docker-compose](docker-compose-production.yml) 文件来满足自己特定需求 
 
 ```
 git clone --depth=1 https://github.com/Websoft9/docker-onlyoffice
@@ -48,6 +48,8 @@ docker-compose -f docker-compose-production.yml up -d
 ### 使用说明
 
 启动应用后，本地浏览器访问 URL: *http://服务器公网IP:9100* 进入应用。  
+
+下面是使用过程中可能需要了解的参数
 
 #### 用户名和密码
 
@@ -62,6 +64,11 @@ docker-compose -f docker-compose-production.yml up -d
 | ONLYOFFICE   | 9003 | onlyoffice-server         |      |
 
 
+#### 资源
+
+* [文档](https://support.websoft9.com/docs/onlyoffice)
+* [修改日志](/CHANGELOG.md)
+
 ## 企业级支持
 
 我们在主流云平台上发布了*ONLYOFFICE CommunityServer*，您可以通过[购买ONLYOFFICE](https://apps.websoft9.com/onlyoffice)自动部署它并获得我们的企业支持，以确保应用程序的高可用性。
@@ -72,18 +79,12 @@ docker-compose -f docker-compose-production.yml up -d
 * 支持：技术支持所需的一切，例如启用HTTPS、升级指南
 * 安全：安全服务和工具，可提高您软件的安全性
 
-## 链接
-
-* [文档](https://support.websoft9.com/docs/onlyoffice)
-* [记录](/CHANGELOG.md)
-* [许可证](/LICENSE.md)
-
 ## 常见问题
 
-#### 启动ONLYOFFICE前需要更改密码吗？
+#### 启动 ONLYOFFICE 前需要更改密码吗？
 
-是的, 在生产环境中，您应该在docker compose文件中修改所有数据库密码和应用程序密码
+是的, 在生产环境中，您应该在 docker-compose 文件中修改所有数据库密码和应用程序密码
 
-#### ONLYOFFICE默认的用户名和密码是什么？
+#### ONLYOFFICE 默认的用户名和密码是什么？
 
 请参照[docker-compose file](docker-compose-production.yml)的上方注释区域
