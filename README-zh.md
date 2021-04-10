@@ -22,7 +22,9 @@
 
 更多配置信息请参照[系统配置](https://github.com/ONLYOFFICE/docker#recommended-system-requirements)
 
-## 预安装
+## 安装使用
+
+### 安装 Docker 环境
 
 如果服务器尚未安装Docker，请使用如下命令安装：
 
@@ -33,9 +35,9 @@ sudo chmod +x /usr/local/bin/docker-compose
 ln -sf /usr/local/bin/docker-compose  /usr/bin
 ```
 
-## 安装应用
+### Docker-compose 启动应用
 
-如果你对Docker应用很熟悉，你可以修改[docker-compose file](docker-compose-production.yml)来满足自己特定需求 
+如果你对Docker应用很熟悉，你可以修改 [docker-compose](docker-compose-production.yml) 文件来满足自己特定需求 
 
 ```
 git clone --depth=1 https://github.com/Websoft9/docker-onlyoffice
@@ -43,21 +45,21 @@ cd docker-onlyoffice
 docker-compose -f docker-compose-production.yml up -d
 ```
 
-### 开始使用
+### 使用说明
 
-您可以通过输入如下URL进行登录: *http://Instance Internet IP:9100*，默认用户名和密码为:
+启动应用后，本地浏览器访问 URL: *http://服务器公网IP:9100* 进入应用。  
+
+#### 用户名和密码
 
 | 用户名    | 密码 |
 | ------- | -------- |
 |  admin | 123456  |
 
-## 参数（服务及端口）
+#### 服务及端口
 
 | 服务       | 端口号                                  | 容器名                 |
 | ---------- | ------------------------------------- | -------------------- |
-| ONLYOFFICE CommunityServer   | 9003 | onlyoffice-mysql-server         |
-| phpMyAdmins     | 9090    |       onlyoffice-community-server               |
-| ONLYOFFICE DocumentServer     | 9002    |         onlyoffice-document-server             |
+| ONLYOFFICE   | 9003 | onlyoffice-server         |      |
 
 
 ## 企业级支持
