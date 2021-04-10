@@ -42,6 +42,17 @@ cd docker-onlyoffice
 docker-compose -f docker-compose-production.yml up -d
 ```
 
+### 常见问题
+
+#### 启动 ONLYOFFICE 前需要更改密码吗？
+
+是的, 在生产环境中，您应该在 docker-compose 文件中修改所有数据库密码和应用程序密码
+
+#### 端口冲突导致无法启动？
+
+修改 [docker-compose](docker-compose-production.yml) 文件中冲突的端口，然后再启动容器
+
+
 ### 使用说明
 
 启动应用后，本地浏览器访问 URL: *http://服务器公网IP:9100* 进入应用。  
@@ -76,13 +87,3 @@ docker-compose -f docker-compose-production.yml up -d
 * 精准知识：产品专家的解答和指导
 * 全面支持：技术支持所需的一切，例如启用HTTPS、升级指南
 * 安全顾问：安全服务和工具，可提高您软件的安全性
-
-## 常见问题
-
-#### 启动 ONLYOFFICE 前需要更改密码吗？
-
-是的, 在生产环境中，您应该在 docker-compose 文件中修改所有数据库密码和应用程序密码
-
-#### ONLYOFFICE 默认的用户名和密码是什么？
-
-请参照[docker-compose file](docker-compose-production.yml)的上方注释区域
