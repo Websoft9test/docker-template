@@ -1,4 +1,4 @@
-name: Template README.md by variables.json
+name: Template README by variables.json
 
 on: 
   push:
@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
         
-    - name: npm install vuepress
+    - name: npm install jinjia2-cli
       run: |
        pip install jinja2-cli
        jinja2 README-zh.jinja2 variables.json  > README-zh.md
