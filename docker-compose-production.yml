@@ -7,7 +7,8 @@ services:
   onlyoffice-mysql-server:
     container_name: onlyoffice-mysql-server
     image: mysql:5.7
-    environment:
+    hostname: onlyoffice-server
+    environment: 
      - MYSQL_ROOT_PASSWORD=123456
     stdin_open: true
     tty: true
