@@ -10,6 +10,7 @@ services:
     environment:
      - MYSQL_ROOT_PASSWORD=123456
     stdin_open: true
+    user: root
     tty: true
     restart: always
     volumes:
