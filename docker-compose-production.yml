@@ -2,7 +2,7 @@
 # default MySQL root password is 123456
 
 
-version: '3'
+version: '3.8'
 services:
   onlyoffice-mysql-server:
     container_name: onlyoffice-mysql-server
