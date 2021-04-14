@@ -95,7 +95,7 @@ services:
     
 networks:
   default:
-      name: "apps"
+      name: "onlyoffice"
     
 volumes:
   document_data:
