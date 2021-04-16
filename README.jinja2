@@ -53,6 +53,11 @@ We assume that you are already familiar with Docker, and you can modify [docker-
 ```
 git clone --depth=1 https://github.com/Websoft9/docker-{{name}}
 cd docker-{{name}}
+{% if command_comments is defined -%}
+{% for comment in command_comments -%}
+# {{comment.comment_en}}  
+{% endfor -%}  
+{% endif -%}
 docker-compose -f {{compose_file}} up -d
 ```
 
