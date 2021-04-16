@@ -55,6 +55,11 @@ sudo systemctl start docker
 ```
 git clone --depth=1 https://github.com/Websoft9/docker-{{name}}
 cd docker-{{name}}
+{% if command_comments is defined -%}
+{% for comment in command_comments -%}
+# {{comment.comment_cn}}  
+{% endfor -%}  
+{% endif -%}
 sudo docker-compose -f {{compose_file}} up -d
 ```
 
