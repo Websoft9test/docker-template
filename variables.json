@@ -37,12 +37,12 @@
 
   "command_comments":[
     {
-      "commnet_cn": ".env文件的SITE_NAME需要修改成公网IP或者域名才能被外网访问",
-      "commnet_cn": ".env file's [SITE_NAME] should  be changed to public IP or domain name to be accessed by Internet"
+      "comment_cn": ".env文件的SITE_NAME需要修改成公网IP或者域名才能被外网访问",
+      "comment_en": ".env file's [SITE_NAME] should  be changed to public IP or domain name to be accessed by Internet"
     },
     {
-      "commnet_cn": "默认启动的是ERPNext12，如果您想运行ERPNext13,只需将ERPNEXT_VERSION、FRAPPE_VERSION修改成v13",
-      "commnet_cn": "The default startup is erpnext12. If you want to run erpnext13, you only need to change ERPNEXT_VERSION/FRAPPE_VERSIO to V13"
+      "comment_cn": "默认启动的是ERPNext12，如果您想运行ERPNext13,只需将ERPNEXT_VERSION、FRAPPE_VERSION修改成v13",
+      "comment_en": "The default startup is erpnext12. If you want to run erpnext13, you only need to change ERPNEXT_VERSION/FRAPPE_VERSIO to V13"
     }
   ],
 
