@@ -2,9 +2,7 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - master
+      paths: [README-zh.jinja2, README.jinja2]
       
 jobs:
   build:
