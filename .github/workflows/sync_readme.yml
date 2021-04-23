@@ -10,16 +10,18 @@ jobs:
     steps:
       - name: Run a one-line script
         env:
-          FILES:  docker-akeneo      
+          FILES:  docker-akeneo 
                   docker-alfresco
                   docker-awx
                   docker-bigbluebutton
                   docker-caddy
                   docker-cloudbeaver
                   docker-cmak
+                  docker-codeserver
                   docker-couchdb
                   docker-dgraph
                   docker-drupal
+                  docker-elasticsearch
                   docker-elk
                   docker-erpnext
                   docker-falcon
@@ -38,6 +40,8 @@ jobs:
                   docker-jumpserver
                   docker-jupyter
                   docker-kafka
+                  docker-kibana
+                  docker-knowage
                   docker-logstash
                   docker-magento
                   docker-mariadb
@@ -55,6 +59,8 @@ jobs:
                   docker-nextcloud
                   docker-nginx
                   docker-odoo
+                  docker-onlyoffice
+                  docker-onlyofficedocumentserver
                   docker-opencart
                   docker-owncloud
                   docker-pgadmin
@@ -66,11 +72,15 @@ jobs:
                   docker-projector
                   docker-rabbitmq
                   docker-redis
+                  docker-redmine
                   docker-rethinkdb
                   docker-rocketchat
                   docker-saleor
+                  docker-seafile
                   docker-server
+                  docker-strapi
                   docker-superset
+                  docker-template
                   docker-theia
                   docker-tomcat
                   docker-varnish
