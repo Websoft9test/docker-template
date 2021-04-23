@@ -6,7 +6,7 @@
 
 [简体中文](/README-zh.md) | [English](/README.md) 
 
-本项目是由 [Websoft9](https://www.websoft9.com) 研发的 **云原生程序** ，大大简化 ONLYOFFICE 复杂的安装及配置。
+本项目是由 [Websoft9](https://www.websoft9.com) 研发的 **云原生程序** ，大大简化 ONLYOFFICE 复杂的安装以及配置。
 
 ## 系统要求
 
