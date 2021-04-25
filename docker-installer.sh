@@ -156,7 +156,7 @@ installation(){
     rm -rf $install_dir /credentials
     mkdir -p $install_dir /credentials &&  cd $install_dir  
     sudo git clone https://github.com/Websoft9/docker-$repo_name.git $install_dir 
-    #db random password
+#db random password
     new_password=$(pwgen -ncCs 15 1)
     sudo sed -i "s/123456/$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
     sudo sed -i "s/123456/$new_password/g" $install_dir/.env &>/dev/null || true
@@ -189,18 +189,11 @@ cat > /tmp/install.sh <<-EOF
     sudo systemctl enable docker
     sudo echo -e \"Docker was installed successfully\"
     sudo echo `docker -v`
+
     mv docker-compose /usr/local/bin/docker-compose
     sudo echo "docker-compose -v"
     sudo echo -e \"docker-compose installed successfully\"
 
-if command -v apt > /dev/null;then  
-    sudo apt update 1>/dev/null 2>&1
-    sudo apt install pwgen -y  1>/dev/null 2>&1
-elif  command -v yum > /dev/null;then 
-    sudo yum clean all 1>/dev/null 2>&1
-    sudo yum makecache 1>/dev/null 2>&1
-    sudo yum install pwgen -y 1>/dev/null 2>&1
-fi
     rm -rf $install_dir /credentials
     mkdir -p $install_dir /credentials 
     docker load -i $repo_name.tar 
@@ -209,11 +202,25 @@ fi
     rm -rf \$upper_dir/$repo_name
     /bin/cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
     cd $install_dir 
-    # db random password
-    new_password=\$(pwgen -ncCs 15 1)
-    sudo echo \$new_password |tee -a /credentials/password.txt
+# db random password
+    new_password=\$(date | md5sum | awk '{print $1}' |cut -c 3-18)
     sed -i \"s/123456/\$new_password/g\" $install_dir/$compose_file_name &>/dev/null || true
     sed -i \"s/123456/\$new_password/g\" $install_dir/.env &>/dev/null || true
+
+    compose_password_lines=`cat $install_dir/$compose_file_name |grep \"123456\" |wc -l`
+
+if  [ -f $install_dir/.env ];then
+    env_password_lines=`cat $install_dir/.env |grep "123456" |wc -l`
+else
+    env_password_line=0
+fi
+
+if  [ \$env_password_lines -eq 0 ] && [ \$compose_password_lines -eq 0 ]
+    sudo echo "db password: 123456" |tee -a /credentials/password.txt
+else
+    sudo echo "db password: \$new_password" |tee -a /credentials/password.txt
+fi
+
     docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
 EOF
     cat /tmp/install.sh |tr -d '\' &>/dev/mull
