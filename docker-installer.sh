@@ -7,8 +7,8 @@ docker_download_url="https://download.docker.com/linux/static/stable/x86_64/dock
 
 # Please modify this version and time after update
 version(){
-    echo "version: 1.0"
-    echo "updated date: 20201-04-22"
+    echo "version: 1.2"
+    echo "updated date: 20201-04-25"
 }
  
 tool_list=(
