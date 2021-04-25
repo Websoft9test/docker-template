@@ -49,7 +49,6 @@ do
             version
             shift ;;
          --) 
-            echo -e "$help_str"
             break
             shift ;;
     esac
@@ -174,7 +173,8 @@ else
     sudo echo "db password: $new_password" |tee -a /credentials/password.txt
 fi
 
-    docker-compose -f $compose_file_name up -d 
+    docker-compose -f $compose_file_name up -d
+    clear && docker ps  -a  
 }
 
 add_install_script(){
@@ -222,6 +222,7 @@ else
 fi
 
     docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
+    clear && docker ps -a
 EOF
     cat /tmp/install.sh |tr -d '\' &>/dev/mull
 }
