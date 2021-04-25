@@ -7,8 +7,8 @@ docker_download_url="https://download.docker.com/linux/static/stable/x86_64/dock
 
 # Please modify this version and time after update
 version(){
-    echo "version: 1.0"
-    echo "updated date: 20201-04-22"
+    echo "version: 1.2"
+    echo "updated date: 20201-04-25"
 }
  
 tool_list=(
@@ -139,14 +139,6 @@ install_docker_compose(){
     sudo echo -e "docker-compose installed successfully"
 }
 
-installation(){
-    rm -rf $install_dir
-    mkdir -p $install_dir && cd $install_dir  
-    sudo git clone https://github.com/Websoft9/docker-$repo_name.git $install_dir 
-    #Random password
-    docker-compose -f $compose_file_name up -d 
-}
-
 save_images(){
     rm -rf /tmp/docker-$repo_name
     sudo git clone https://github.com/Websoft9/docker-$repo_name.git /tmp/docker-$repo_name
@@ -158,22 +150,50 @@ save_images(){
     sudo echo -e "The image was successfully saved as a tar package"
 }
 
-add_install_file(){
-    rm -f /tmp/install.sh
-    sudo echo "new_password=$(pwgen -ncCs 15 1)" | tee -a /tmp/install.sh
-    sudo echo "sudo echo $new_password |tee -a /credentials/password.txt" |tee -a /tmp/install.sh
-sudo cat >> /tmp/install.sh <<EOF
-    docker load -i $repo_name.tar 
+installation(){
     rm -rf $install_dir /credentials
-    mkdir -p $install_dir /credentials 
-    cd $install_dir && cd .. && PWD=$(pwd) && rm -rf $repo_name
-    /bin/cp -rf docker-$repo_name $PWD/$repo_name 
-    cd $install_dir 
-    # db random password
+    mkdir -p $install_dir /credentials &&  cd $install_dir  
+    sudo git clone https://github.com/Websoft9/docker-$repo_name.git $install_dir 
+    #db random password
+    new_password=$(pwgen -ncCs 15 1)
     sed -i "s/123456/$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
     sed -i "s/123456/$new_password/g" $install_dir/.env &>/dev/null || true
+    sudo echo $new_password |tee -a /credentials/password.txt
+    docker-compose -f $compose_file_name up -d 
+    
+}
+
+install_script="
+if command -v apt > /dev/null;then  
+    sudo apt update 1>/dev/null 2>&1
+    sudo apt install pwgen -y  1>/dev/null 2>&1
+elif  command -v yum > /dev/null;then 
+    sudo yum clean all 1>/dev/null 2>&1
+    sudo yum makecache 1>/dev/null 2>&1
+    sudo yum install pwgen -y 1>/dev/null 2>&1
+fi
+    rm -rf $install_dir /credentials
+    mkdir -p $install_dir /credentials 
+    docker load -i $repo_name.tar 
+    cur_dir=\$(pwd)
+    upper_dir=\$(dirname $install_dir)
+    rm -rf \$upper_dir/$repo_name
+    /bin/cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
+    cd $install_dir 
+    # db random password
+    new_password=\$(pwgen -ncCs 15 1)
+    sudo echo \$new_password |tee -a /credentials/password.txt
+    sed -i "s/123456/\$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
+    sed -i "s/123456/\$new_password/g" $install_dir/.env &>/dev/null || true
     docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
+"
+
+add_install_script(){
+    rm -rf /tmp/install.sh
+cat > /tmp/install.sh <<-EOF
+    install_script
 EOF
+    cat /tmp/install.sh |tr -d '\'
 }
 
 get_install_information(){
@@ -206,8 +226,7 @@ if [ $make_package = true ]; then
    install_docker_source
    install_docker_compose
    save_images
-   add_install_file
+   add_install_script
    make_package
 fi
-
 
