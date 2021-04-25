@@ -162,7 +162,9 @@ installation(){
     
 }
 
-install_script="
+add_install_script(){
+    rm -rf /tmp/install.sh
+cat > /tmp/install.sh <<-EOF
     tar -xf docker.tgz 
     sudo systemctl stop docker &>/dev/mull || true
     mv docker.service /etc/systemd/system/docker.service
@@ -197,12 +199,6 @@ fi
     sed -i \"s/123456/\$new_password/g\" $install_dir/$compose_file_name &>/dev/null || true
     sed -i \"s/123456/\$new_password/g\" $install_dir/.env &>/dev/null || true
     docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
-"
-
-add_install_script(){
-    rm -rf /tmp/install.sh
-cat > /tmp/install.sh <<-EOF
-    $install_script
 EOF
     cat /tmp/install.sh |tr -d '\' &>/dev/mull
 }
