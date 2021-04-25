@@ -7,8 +7,8 @@ docker_download_url="https://download.docker.com/linux/static/stable/x86_64/dock
 
 # Please modify this version and time after update
 version(){
-    echo "version: 1.2"
-    echo "updated date: 20201-04-25"
+    sudo echo "version: 1.2"
+    sudo echo "updated date: 20201-04-25"
 }
  
 tool_list=(
@@ -40,7 +40,7 @@ do
             repo_name=$2
             shift ;;
         -h|--help)
-            echo -e "$help_str"
+            sudo echo -e "$help_str"
             exit ;;
         -p|--package)
             make_package=true
@@ -56,7 +56,7 @@ do
 done
 
 [ ! -n "$repo_name" ] && exit 0
-echo "docker-$repo_name to be installed,Package as an image: $make_package"
+sudo echo "docker-$repo_name to be installed,Package as an image: $make_package"
 
 install_tools(){
   if command -v apt > /dev/null;then  
@@ -71,7 +71,7 @@ install_tools(){
 
 download_docker_source(){
     cd /tmp/
-    rm -rf docker.tgz
+    sudo rm -rf docker.tgz
     sudo wget $docker_download_url -O docker.tgz 1>/dev/null 2>&1
     sudo echo -e "docker downloaded successfully"
 sudo cat > /tmp/docker.service <<EOF
@@ -112,22 +112,27 @@ EOF
 }
 
 install_docker_script(){
-    curl -fsSL https://get.docker.com -o get-docker.sh &>/dev/null && sh get-docker.sh &>/dev/null
-    systemctl start docker 
-    systemctl enable docker  
+  if command -v docker > /dev/null;then 
     sudo echo -e `docker -v`
     sudo echo -e "Docker installed successfully"
+  else 
+    sudo curl -fsSL https://get.docker.com -o get-docker.sh &>/dev/null && sh get-docker.sh &>/dev/null 
+    sudo systemctl start docker 
+    sudo systemctl enable docker
+    sudo echo -e `docker -v`
+    sudo echo -e "Docker installed successfully"
+  fi
 }
 
 uninstall_docker(){
-    rm -f /etc/systemd/system/docker.service 
-    rm -rf /usr/bin/docker*
+    sudo rm -f /etc/systemd/system/docker.service 
+    sudo rm -rf /usr/bin/docker*
     sudo systemctl daemon-reload
     sudo echo -e "Docker uninstalled successfully"
 }
 
 download_docker_compose(){
-   curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose 1>/dev/null 2>&1
+   sudo curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose 1>/dev/null 2>&1
    sudo chmod +x /tmp/docker-compose 
    sudo echo -e "docker-compose downloaded successfully"   
 }
@@ -141,19 +146,19 @@ install_docker_compose(){
 }
 
 save_images(){
-    rm -rf /tmp/docker-$repo_name
+    sudo rm -rf /tmp/docker-$repo_name
     sudo git clone https://github.com/Websoft9/docker-$repo_name.git /tmp/docker-$repo_name
     sudo docker rmi `docker images -aq` -f &>/dev/null || true   
     cd /tmp/docker-$repo_name
     docker-compose -f $compose_file_name pull 
-    echo -e "In image packaging, there is a long wait..." 
-    docker save $(docker images | grep -v REPOSITORY | awk 'BEGIN{OFS=":";ORS=" "}{print $1,$2}') -o /tmp/$repo_name.tar 
+    sudo echo -e "In image packaging, there is a long wait..." 
+    sudo docker save $(docker images | grep -v REPOSITORY | awk 'BEGIN{OFS=":";ORS=" "}{print $1,$2}') -o /tmp/$repo_name.tar 
     sudo echo -e "The image was successfully saved as a tar package"
 }
 
 installation(){
-    rm -rf $install_dir /credentials
-    mkdir -p $install_dir /credentials &&  cd $install_dir  
+    sudo rm -rf $install_dir /credentials
+    sudo mkdir -p $install_dir /credentials &&  cd $install_dir  
     sudo git clone https://github.com/Websoft9/docker-$repo_name.git $install_dir 
 #db random password
     new_password=$(pwgen -ncCs 15 1)
@@ -161,84 +166,83 @@ installation(){
     sudo sed -i "s/123456/$new_password/g" $install_dir/.env &>/dev/null || true
     compose_password_lines=`cat $install_dir/$compose_file_name |grep "123456" |wc -l`
 
-if  [ -f $install_dir/.env ];then
+  if  [ -f $install_dir/.env ];then
     env_password_lines=`cat $install_dir/.env |grep "123456" |wc -l`
-else
+  else
     env_password_line=0
-fi
+  fi
 
-if  [ $env_password_lines -eq 0 ] && [ $compose_password_lines -eq 0 ]
+  if  [ $env_password_lines -eq 0 ] && [ $compose_password_lines -eq 0 ];then
     sudo echo "db password: 123456" |tee -a /credentials/password.txt
-else
+  else
     sudo echo "db password: $new_password" |tee -a /credentials/password.txt
-fi
+  fi
 
-    docker-compose -f $compose_file_name up -d
-    clear && docker ps  -a  
+    sudo docker-compose -f $compose_file_name up -d
+    sudo clear && sudo docker ps  -a  
 }
 
 add_install_script(){
-    rm -rf /tmp/install.sh
+    sudo rm -rf /tmp/install.sh
 cat > /tmp/install.sh <<-EOF
-    tar -xf docker.tgz 
+    sudo tar -xf docker.tgz 
     sudo systemctl stop docker &>/dev/mull || true
-    mv docker.service /etc/systemd/system/docker.service
-    mv docker/* /usr/bin/  
+    sudo mv docker.service /etc/systemd/system/docker.service
+    sudo mv docker/* /usr/bin/  
     sudo systemctl daemon-reload
     sudo systemctl start docker
     sudo systemctl enable docker
-    sudo echo -e \"Docker was installed successfully\"
-    sudo echo `docker -v`
+    sudo echo -e "Docker was installed successfully"
+    sudo echo \$(docker -v)
 
-    mv docker-compose /usr/local/bin/docker-compose
-    sudo echo "docker-compose -v"
-    sudo echo -e \"docker-compose installed successfully\"
+    sudo mv docker-compose /usr/local/bin/docker-compose
+    sudo echo \$(docker-compose -v)
+    sudo echo -e "docker-compose installed successfully"
 
-    rm -rf $install_dir /credentials
-    mkdir -p $install_dir /credentials 
-    docker load -i $repo_name.tar 
+    sudo rm -rf $install_dir /credentials
+    sudo mkdir -p $install_dir /credentials 
+    sudo docker load -i $repo_name.tar 
     cur_dir=\$(pwd)
     upper_dir=\$(dirname $install_dir)
-    rm -rf \$upper_dir/$repo_name
+    sudo rm -rf \$upper_dir/$repo_name
     /bin/cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
     cd $install_dir 
 # db random password
     new_password=\$(date | md5sum | awk '{print $1}' |cut -c 3-18)
-    sed -i \"s/123456/\$new_password/g\" $install_dir/$compose_file_name &>/dev/null || true
-    sed -i \"s/123456/\$new_password/g\" $install_dir/.env &>/dev/null || true
+    sudo sed -i "s/123456/\$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
+    sudo sed -i "s/123456/\$new_password/g" $install_dir/.env &>/dev/null || true
 
-    compose_password_lines=`cat $install_dir/$compose_file_name |grep \"123456\" |wc -l`
+    compose_password_lines=\$(cat $install_dir/$compose_file_name |grep \"123456\" |wc -l)
 
 if  [ -f $install_dir/.env ];then
-    env_password_lines=`cat $install_dir/.env |grep "123456" |wc -l`
+    env_password_lines=\$(cat $install_dir/.env |grep "123456" |wc -l)
 else
     env_password_line=0
 fi
 
-if  [ \$env_password_lines -eq 0 ] && [ \$compose_password_lines -eq 0 ]
+if  [ "\$env_password_lines" -eq 0 ] && [ "\$compose_password_lines" -eq 0 ];then
     sudo echo "db password: 123456" |tee -a /credentials/password.txt
 else
     sudo echo "db password: \$new_password" |tee -a /credentials/password.txt
 fi
-
-    docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
-    clear && docker ps -a
+    sudo rm -rf \$cur_dir/{$repo_name.tgz,$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker-$repo_name,docker.tgz,docker,install.sh}
+    sudo docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
+    sudo clear && docker ps -a
 EOF
-    cat /tmp/install.sh |tr -d '\' &>/dev/mull
 }
 
 get_install_information(){
    install_dir=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .installpath` 1>/dev/null
    compose_file_name=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .compose_file` 1>/dev/null
 if [ ! $install_dir ] && [ ! $compose_file_name ];then
-       echo "variables.json has an undefined parameter"
+       sudo echo "variables.json has an undefined parameter"
        exit 1 
 fi 
-   echo $install_dir $compose_file_name
+   sudo echo $install_dir $compose_file_name
 }
 
 make_package(){
-   rm -rf ~/$repo_name.tgz 
+   sudo rm -rf ~/$repo_name.tgz 
    cd /tmp && tar -zcPf ~/$repo_name.tgz ./{install.sh,$repo_name.tar,docker-$repo_name,docker.tgz,docker.service,docker-compose}
    cd ~  && sudo echo -e "Image packaging successfully"
 }
@@ -254,6 +258,8 @@ if [ $make_package = false ]; then
 fi
 
 if [ $make_package = true ]; then
+   install_docker_script
+   install_docker_compose
    download_docker_source
    download_docker_compose
    save_images
