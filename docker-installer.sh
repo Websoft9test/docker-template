@@ -225,7 +225,7 @@ if  [ "\$env_password_lines" -eq 0 ] && [ "\$compose_password_lines" -eq 0 ];the
 else
     sudo echo "db password: \$new_password" |tee -a /credentials/password.txt
 fi
-    sudo rm -rf \$cur_dir/{$repo_name.tgz,$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker-$repo_name,docker.tgz,docker,install.sh}
+    sudo rm -rf \$cur_dir/{$repo_name.tgz,$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh}
     sudo docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
     sudo clear && docker ps -a
 EOF
