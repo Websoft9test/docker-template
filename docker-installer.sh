@@ -74,6 +74,7 @@ download_docker_source(){
     cd /tmp/
     rm -rf docker.tgz
     sudo wget $docker_download_url -O docker.tgz 1>/dev/null 2>&1
+    sudo echo -e "docker downloaded successfully"
 sudo cat > /tmp/docker.service <<EOF
 [Unit]
 Description=Docker Application Container Engine
@@ -125,8 +126,9 @@ uninstall_docker(){
 }
 
 download_docker_compose(){
-   curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose 
-   sudo chmod +x /tmp/docker-compose    
+   curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose 1>/dev/null 2>&1
+   sudo chmod +x /tmp/docker-compose 
+   sudo echo -e "docker-compose downloaded successfully"   
 }
 
 install_docker_compose(){ 
