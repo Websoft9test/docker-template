@@ -113,9 +113,11 @@ EOF
 }
 
 install_docker_script(){
-    curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
-    sysemctl start docker 
+    curl -fsSL https://get.docker.com -o get-docker.sh &>/dev/null && sh get-docker.sh &>/dev/null
+    systemctl start docker 
     systemctl enable docker  
+    sudo echo -e `docker -v`
+    sudo echo -e "Docker installed successfully"
 }
 
 uninstall_docker(){
@@ -134,7 +136,8 @@ download_docker_compose(){
 install_docker_compose(){ 
     curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose 1>/dev/null 2>&1
     sudo chmod +x /usr/local/bin/docker-compose 
-    ln -sf /usr/local/bin/docker-compose  /usr/bin/  
+    ln -sf /usr/local/bin/docker-compose  /usr/local/bin/docker-compose &>/dev/mull || true
+    sudo echo `docker-compose -v`
     sudo echo -e "docker-compose installed successfully"
 }
 
@@ -155,11 +158,23 @@ installation(){
     sudo git clone https://github.com/Websoft9/docker-$repo_name.git $install_dir 
     #db random password
     new_password=$(pwgen -ncCs 15 1)
-    sed -i "s/123456/$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
-    sed -i "s/123456/$new_password/g" $install_dir/.env &>/dev/null || true
-    sudo echo $new_password |tee -a /credentials/password.txt
+    sudo sed -i "s/123456/$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
+    sudo sed -i "s/123456/$new_password/g" $install_dir/.env &>/dev/null || true
+    compose_password_lines=`cat $install_dir/$compose_file_name |grep "123456" |wc -l`
+
+if  [ -f $install_dir/.env ];then
+    env_password_lines=`cat $install_dir/.env |grep "123456" |wc -l`
+else
+    env_password_line=0
+fi
+
+if  [ $env_password_lines -eq 0 ] && [ $compose_password_lines -eq 0 ]
+    sudo echo "db password: 123456" |tee -a /credentials/password.txt
+else
+    sudo echo "db password: $new_password" |tee -a /credentials/password.txt
+fi
+
     docker-compose -f $compose_file_name up -d 
-    
 }
 
 add_install_script(){
@@ -174,7 +189,8 @@ cat > /tmp/install.sh <<-EOF
     sudo systemctl enable docker
     sudo echo -e \"Docker was installed successfully\"
     sudo echo `docker -v`
-    mv docker-compose /usr/bin/docker-compose
+    mv docker-compose /usr/local/bin/docker-compose
+    sudo echo "docker-compose -v"
     sudo echo -e \"docker-compose installed successfully\"
 
 if command -v apt > /dev/null;then  
@@ -206,7 +222,7 @@ EOF
 get_install_information(){
    install_dir=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .installpath` 1>/dev/null
    compose_file_name=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .compose_file` 1>/dev/null
-if [ ! -n "$install_dir" ] && [ ! -n "$compose_file_name" ];then
+if [ ! $install_dir ] && [ ! $compose_file_name ];then
        echo "variables.json has an undefined parameter"
        exit 1 
 fi 
