@@ -7,8 +7,8 @@ docker_download_url="https://download.docker.com/linux/static/stable/x86_64/dock
 
 # Please modify this version and time after update
 version(){
-    echo "version: 1.2"
-    echo "updated date: 20201-04-25"
+    echo "version: 1.0"
+    echo "updated date: 20201-04-22"
 }
  
 tool_list=(
@@ -70,13 +70,11 @@ install_tools(){
   fi
 }
 
-install_docker_source(){
+download_docker_source(){
     cd /tmp/
     rm -rf docker.tgz
     sudo wget $docker_download_url -O docker.tgz 1>/dev/null 2>&1
-    tar -xf docker.tgz 
-    sudo systemctl stop docker &>/dev/mull || true
-sudo cat > /etc/systemd/system/docker.service <<EOF
+sudo cat > /tmp/docker.service <<EOF
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
@@ -111,12 +109,6 @@ StartLimitInterval=60s
 [Install]
 WantedBy=multi-user.target
 EOF
-    cp docker/* /usr/bin/  
-    sudo systemctl daemon-reload
-    sudo systemctl start docker
-    sudo systemctl enable docker
-    sudo echo "Docker was installed successfully"
-    sudo echo `docker -v` 
 }
 
 install_docker_script(){
@@ -130,6 +122,11 @@ uninstall_docker(){
     rm -rf /usr/bin/docker*
     sudo systemctl daemon-reload
     sudo echo -e "Docker uninstalled successfully"
+}
+
+download_docker_compose(){
+   curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /tmp/docker-compose 
+   sudo chmod +x /tmp/docker-compose    
 }
 
 install_docker_compose(){ 
@@ -164,6 +161,18 @@ installation(){
 }
 
 install_script="
+    tar -xf docker.tgz 
+    sudo systemctl stop docker &>/dev/mull || true
+    mv docker.service /etc/systemd/system/docker.service
+    mv docker/* /usr/bin/  
+    sudo systemctl daemon-reload
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    sudo echo -e \"Docker was installed successfully\"
+    sudo echo `docker -v`
+    mv docker-compose /usr/bin/docker-compose
+    sudo echo -e \"docker-compose installed successfully\"
+
 if command -v apt > /dev/null;then  
     sudo apt update 1>/dev/null 2>&1
     sudo apt install pwgen -y  1>/dev/null 2>&1
@@ -183,17 +192,17 @@ fi
     # db random password
     new_password=\$(pwgen -ncCs 15 1)
     sudo echo \$new_password |tee -a /credentials/password.txt
-    sed -i "s/123456/\$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
-    sed -i "s/123456/\$new_password/g" $install_dir/.env &>/dev/null || true
+    sed -i \"s/123456/\$new_password/g\" $install_dir/$compose_file_name &>/dev/null || true
+    sed -i \"s/123456/\$new_password/g\" $install_dir/.env &>/dev/null || true
     docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
 "
 
 add_install_script(){
     rm -rf /tmp/install.sh
 cat > /tmp/install.sh <<-EOF
-    install_script
+    $install_script
 EOF
-    cat /tmp/install.sh |tr -d '\'
+    cat /tmp/install.sh |tr -d '\' &>/dev/mull
 }
 
 get_install_information(){
@@ -208,7 +217,7 @@ fi
 
 make_package(){
    rm -rf ~/$repo_name.tgz 
-   cd /tmp && tar -zcPf ~/$repo_name.tgz ./{install.sh,$repo_name.tar,docker-$repo_name}
+   cd /tmp && tar -zcPf ~/$repo_name.tgz ./{install.sh,$repo_name.tar,docker-$repo_name,docker.tgz,docker.service,docker-compose}
    cd ~  && sudo echo -e "Image packaging successfully"
 }
 
@@ -223,8 +232,8 @@ if [ $make_package = false ]; then
 fi
 
 if [ $make_package = true ]; then
-   install_docker_source
-   install_docker_compose
+   download_docker_source
+   download_docker_compose
    save_images
    add_install_script
    make_package
