@@ -7,8 +7,8 @@ docker_download_url="https://download.docker.com/linux/static/stable/x86_64/dock
 
 # Please modify this version and time after update
 version(){
-    sudo echo "version: 1.2"
-    sudo echo "updated date: 20201-04-25"
+    sudo echo "version: 1.3"
+    sudo echo "updated date: 20201-04-26"
 }
  
 tool_list=(
@@ -166,7 +166,7 @@ installation(){
     sudo sed -i "s/123456/$new_password/g" $install_dir/.env &>/dev/null || true
     compose_password_lines=`cat $install_dir/$compose_file_name |grep "123456" |wc -l`
 
-  if  [ -f $install_dir/.env ];then
+  if  [ -f $install_dir/.env &>/dev/null ];then
     env_password_lines=`cat $install_dir/.env |grep "123456" |wc -l`
   else
     env_password_line=0
@@ -225,7 +225,7 @@ if  [ "\$env_password_lines" -eq 0 ] && [ "\$compose_password_lines" -eq 0 ];the
 else
     sudo echo "db password: \$new_password" |tee -a /credentials/password.txt
 fi
-    sudo rm -rf \$cur_dir/{$repo_name.tgz,$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh}
+    sudo rm -rf \$cur_dir/{$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh,docker-$repo_name}
     sudo docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
     sudo clear && docker ps -a
 EOF
