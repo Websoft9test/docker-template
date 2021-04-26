@@ -5,7 +5,7 @@
 version: '3.8'
 services:
   onlyoffice-mysql-server:
-    container_name: onlyoffice-mysql-server
+    container_name: ${APP_CONTAINER_NAME}-mysql
     image: mysql:5.7
     environment:
      - MYSQL_ROOT_PASSWORD=123456
@@ -19,7 +19,7 @@ services:
      - ./mysql_data:/var/lib/mysql
      
   onlyoffice-community-server:
-    container_name: onlyoffice-community-server
+    container_name: ${APP_CONTAINER_NAME}
     image: onlyoffice/communityserver:11.0.0.1458
     depends_on:
      - onlyoffice-mysql-server
