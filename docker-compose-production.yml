@@ -54,7 +54,7 @@ services:
      - ./certs:/var/www/onlyoffice/Data/certs
      
   onlyoffice-document-server:
-    container_name: onlyoffice-document-server
+    container_name:  ${APP_CONTAINER_NAME}-document-server
     image: onlyoffice/documentserver:6.0.2
     stdin_open: true
     tty: true
@@ -75,7 +75,7 @@ services:
        - .document_forgotten:/var/lib/onlyoffice/documentserver/App_Data/cache/files/forgotten
 
   onlyoffice-control-panel:
-    container_name: onlyoffice-control-panel
+    container_name:  ${APP_CONTAINER_NAME}-control-panel
     depends_on:
      - onlyoffice-document-server
      - onlyoffice-community-server
