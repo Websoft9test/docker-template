@@ -14,9 +14,9 @@ services:
     tty: true
     restart: always
     volumes:
-     - ./config/mysql/conf.d:/etc/mysql/conf.d
-     - ./config/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-     - ./mysql_data:/var/lib/mysql
+     - ${VOLUMES_PATH_PREFIX}/config/mysql/conf.d:/etc/mysql/conf.d
+     - ${VOLUMES_PATH_PREFIX}/config/mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+     - ${VOLUMES_PATH_PREFIX}/mysql_data:/var/lib/mysql
      
   onlyoffice-community-server:
     container_name: ${APP_CONTAINER_NAME}
@@ -46,12 +46,12 @@ services:
     restart: always
     privileged: true
     volumes:
-     - ./community_data:/var/www/onlyoffice/Data
-     - ./community_log:/var/log/onlyoffice
-     - ./community_letsencrypt:/etc/letsencrypt
-     - ./document_data:/var/www/onlyoffice/DocumentServerData
+     - ${VOLUMES_PATH_PREFIX}/community_data:/var/www/onlyoffice/Data
+     - ${VOLUMES_PATH_PREFIX}/community_log:/var/log/onlyoffice
+     - ${VOLUMES_PATH_PREFIX}/community_letsencrypt:/etc/letsencrypt
+     - ${VOLUMES_PATH_PREFIX}/document_data:/var/www/onlyoffice/DocumentServerData
      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-     - ./certs:/var/www/onlyoffice/Data/certs
+     - ${VOLUMES_PATH_PREFIX}/certs:/var/www/onlyoffice/Data/certs
      
   onlyoffice-document-server:
     container_name:  ${APP_CONTAINER_NAME}-document-server
@@ -69,9 +69,9 @@ services:
       - '80'
       - '443'
     volumes:
-       - ./document_data:/var/www/onlyoffice/Data
-       - ./document_log:/var/log/onlyoffice
-       - ./document_fonts:/usr/share/fonts/truetype/custom
+       - ${VOLUMES_PATH_PREFIX}/document_data:/var/www/onlyoffice/Data
+       - ${VOLUMES_PATH_PREFIX}/document_log:/var/log/onlyoffice
+       - ${VOLUMES_PATH_PREFIX}/document_fonts:/usr/share/fonts/truetype/custom
        - .document_forgotten:/var/lib/onlyoffice/documentserver/App_Data/cache/files/forgotten
 
   onlyoffice-control-panel:
@@ -88,8 +88,8 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./controlpanel_data:/var/www/onlyoffice/Data
-      - ./controlpanel_log:/var/log/onlyoffice
+      - ${VOLUMES_PATH_PREFIX}/controlpanel_data:/var/www/onlyoffice/Data
+      - ${VOLUMES_PATH_PREFIX}/controlpanel_log:/var/log/onlyoffice
     stdin_open: true
     tty: true
     
