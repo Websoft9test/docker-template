@@ -8,7 +8,7 @@ services:
     container_name: ${APP_CONTAINER_NAME}-mysql
     image: mysql:${DB_MYSQL_VERSION}
     environment:
-     - MYSQL_ROOT_PASSWORD=123456
+     - MYSQL_ROOT_PASSWORD=${DB_MYSQL_PASSWORD}
     stdin_open: true
     user: root
     tty: true
