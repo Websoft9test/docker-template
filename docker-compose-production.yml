@@ -6,7 +6,7 @@ version: '3.8'
 services:
   onlyoffice-mysql-server:
     container_name: ${APP_CONTAINER_NAME}-mysql
-    image: mysql:5.7
+    image: mysql:${DB_MYSQL_VERSION}
     environment:
      - MYSQL_ROOT_PASSWORD=123456
     stdin_open: true
