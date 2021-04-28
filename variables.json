@@ -47,6 +47,15 @@
     }
   ],
 
+  "command_comments":[
+    {
+      "cmd": "echo aaa"
+    },
+    {
+      "cmd": "echo bbb"
+    }
+  ],
+
   "faqs": [
     {
       "question_cn": "问题1",
