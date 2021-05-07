@@ -139,7 +139,7 @@ download_docker_compose(){
 install_docker_compose(){ 
     curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose 1>/dev/null 2>&1
     sudo chmod +x /usr/local/bin/docker-compose 
-    ln -sf /usr/local/bin/docker-compose  /usr/local/bin/docker-compose &>/dev/mull || true
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose &>/dev/mull || true
     sudo echo `docker-compose -v`
     sudo echo -e "docker-compose installed successfully"
 }
@@ -170,7 +170,7 @@ installation(){
   fi
     export DOCKER_CLIENT_TIMEOUT=500
     export COMPOSE_HTTP_TIMEOUT=500
-    docker-compose -f $compose_file_name up -d
+    sudo docker-compose -f $compose_file_name up -d
     sudo clear && sudo docker ps  -a  
 }
 
@@ -188,6 +188,7 @@ cat > /tmp/install.sh <<-EOF
     sudo echo \$(docker -v)
 
     sudo mv docker-compose /usr/local/bin/docker-compose
+    sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose &>/dev/mull || true
     sudo echo \$(docker-compose -v)
     sudo echo -e "docker-compose installed successfully"
 
@@ -211,7 +212,7 @@ cat > /tmp/install.sh <<-EOF
     cd $install_dir 
     export DOCKER_CLIENT_TIMEOUT=500
     export COMPOSE_HTTP_TIMEOUT=500
-    docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
+    sudo docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
     sudo clear && docker ps -a
 EOF
 }
