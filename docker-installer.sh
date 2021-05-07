@@ -1,6 +1,5 @@
 #!/bin/bash
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-clear
 
 set -e
 docker_download_url="https://download.docker.com/linux/static/stable/x86_64/docker-20.10.6.tgz"
@@ -162,22 +161,15 @@ installation(){
     sudo git clone https://github.com/Websoft9/docker-$repo_name.git $install_dir 
 #db random password
     new_password=$(pwgen -ncCs 15 1)
-    sudo sed -i "s/123456/$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
-    sudo sed -i "s/123456/$new_password/g" $install_dir/.env &>/dev/null || true
-    compose_password_lines=`cat $install_dir/$compose_file_name |grep "123456" |wc -l`
-
-  if  [ -f $install_dir/.env &>/dev/null ];then
-    env_password_lines=`cat $install_dir/.env |grep "123456" |wc -l`
-  else
-    env_password_line=0
-  fi
-
-  if  [ $env_password_lines -eq 0 ] && [ $compose_password_lines -eq 0 ];then
-    sudo echo "db password: 123456" |tee -a /credentials/password.txt
-  else
+    password_lines=`cat $install_dir/.env |grep DB.*PASSWORD |wc -l`
+  if  [ $password_lines -gt 0 ];then 
+    sudo sed -ri "s/(DB_.*_PASSWORD=).*/\1$new_password/" $install_dir/.env &>/dev/null || true
     sudo echo "db password: $new_password" |tee -a /credentials/password.txt
+  else
+    sudo echo "No database password" |tee -a /credentials/password.txt
   fi
-
+    export DOCKER_CLIENT_TIMEOUT=500
+    export COMPOSE_HTTP_TIMEOUT=500
     sudo docker-compose -f $compose_file_name up -d
     sudo clear && sudo docker ps  -a  
 }
@@ -206,27 +198,20 @@ cat > /tmp/install.sh <<-EOF
     upper_dir=\$(dirname $install_dir)
     sudo rm -rf \$upper_dir/$repo_name
     /bin/cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
-    cd $install_dir 
-# db random password
-    new_password=\$(date | md5sum | awk '{print $1}' |cut -c 3-18)
-    sudo sed -i "s/123456/\$new_password/g" $install_dir/$compose_file_name &>/dev/null || true
-    sudo sed -i "s/123456/\$new_password/g" $install_dir/.env &>/dev/null || true
-
-    compose_password_lines=\$(cat $install_dir/$compose_file_name |grep \"123456\" |wc -l)
-
-if  [ -f $install_dir/.env ];then
-    env_password_lines=\$(cat $install_dir/.env |grep "123456" |wc -l)
-else
-    env_password_line=0
-fi
-
-if  [ "\$env_password_lines" -eq 0 ] && [ "\$compose_password_lines" -eq 0 ];then
-    sudo echo "db password: 123456" |tee -a /credentials/password.txt
-else
+#db random password
+    new_password=\$(pwgen -ncCs 15 1)
+    password_lines=`cat $install_dir/.env |grep DB.*PASSWORD |wc -l`
+  if  [ "$password_lines" -gt 0 ];then 
+    sudo sed -ri "s/(DB_.*_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
     sudo echo "db password: \$new_password" |tee -a /credentials/password.txt
-fi
+  else
+    sudo echo "No database password" |tee -a /credentials/password.txt
+  fi
     sudo rm -rf \$cur_dir/{$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh,docker-$repo_name}
-    sudo docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
+    cd $install_dir 
+    export DOCKER_CLIENT_TIMEOUT=500
+    export COMPOSE_HTTP_TIMEOUT=500
+    docker-compose -f $compose_file_name up -d 1>/dev/null 2>&1
     sudo clear && docker ps -a
 EOF
 }
