@@ -170,7 +170,7 @@ installation(){
   fi
     export DOCKER_CLIENT_TIMEOUT=500
     export COMPOSE_HTTP_TIMEOUT=500
-    sudo docker-compose -f $compose_file_name up -d
+    docker-compose -f $compose_file_name up -d
     sudo clear && sudo docker ps  -a  
 }
 
@@ -219,7 +219,12 @@ EOF
 get_install_information(){
    install_dir=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .installpath` 1>/dev/null
    compose_file_name=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .compose_file` 1>/dev/null
-if [ ! $install_dir ] && [ ! $compose_file_name ];then
+   compose_env_file=`https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/.env`
+if [[  ! -f $compose_env_file ]];then
+       sudo echo "The env file does not exist"
+fi
+
+if [[ $install_dir == "null" || $compose_file_name = "null" ]];then
        sudo echo "variables.json has an undefined parameter"
        exit 1 
 fi 
