@@ -87,6 +87,7 @@ jobs:
                   docker-wordpress
                   docker-xwiki
                   docker-zentao
+                  docker-zabbix
         run: |
           for f in $FILES
           do
