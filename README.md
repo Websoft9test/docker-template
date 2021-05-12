@@ -60,7 +60,7 @@ git clone --depth=1 https://github.com/Websoft9/docker-onlyoffice
 cd docker-onlyoffice
 #   
 #   
-docker-compose -f docker-compose-production.yml up -d
+docker-compose -f docker-compose-production.yml  --env-file .env_all up -d
 ```
 
 ### FAQ
