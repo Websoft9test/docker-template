@@ -71,7 +71,7 @@ cd docker-{{name}}
 # {{comment.comment_cn}}  
 {% endfor -%}  
 {% endif -%}
-sudo docker-compose -f {{compose_file}} {% if env_file is defined -%} {{env_file}} {% endif -%} up -d
+sudo docker-compose -f {{compose_file}} {% if env_file is defined -%} --env-file {{env_file}} {% endif -%} up -d
 ```
 
 ### 常见问题
