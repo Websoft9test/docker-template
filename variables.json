@@ -48,7 +48,7 @@
     }
   ],
 
-  "command_comments":[
+  "command_extra":[
     {
       "cmd": "echo aaa"
     },
