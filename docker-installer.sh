@@ -201,7 +201,7 @@ cat > /tmp/install.sh <<-EOF
     cp=\$(which cp)
     \$cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
 #db random password
-    new_password=\$(pwgen -ncCs 15 1)
+    new_password=\$(date | md5sum | awk '{print $1}' |cut -c 3-18)
     password_lines=\$(cat $install_dir/.env |grep DB.*PASSWORD |wc -l)
   if  [ "$password_lines" -gt 0 ];then 
     sudo sed -ri "s/(DB_.*_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
