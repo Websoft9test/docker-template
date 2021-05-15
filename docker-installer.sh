@@ -198,7 +198,8 @@ cat > /tmp/install.sh <<-EOF
     cur_dir=\$(pwd)
     upper_dir=\$(dirname $install_dir)
     sudo rm -rf \$upper_dir/$repo_name
-    /bin/cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
+    cp=\$(which cp)
+    \$cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
 #db random password
     new_password=\$(pwgen -ncCs 15 1)
     password_lines=\$(cat $install_dir/.env |grep DB.*PASSWORD |wc -l)
