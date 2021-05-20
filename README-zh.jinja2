@@ -63,7 +63,7 @@ git clone --depth=1 https://github.com/Websoft9/docker-{{name}}
 cd docker-{{name}}
 {% if command_extra is defined -%}
 {% for cmd in command_extra -%}
-# {{cmd.cmd}}  
+{{cmd.cmd}}  
 {% endfor -%}  
 {% endif -%}
 {% if command_comments is defined -%}
