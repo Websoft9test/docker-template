@@ -148,9 +148,16 @@ install_docker_compose(){
 save_images(){
     sudo rm -rf /tmp/docker-$repo_name
     sudo git clone https://github.com/Websoft9/docker-$repo_name.git /tmp/docker-$repo_name
-    sudo docker rmi `docker images -aq` -f &>/dev/null || true   
+    sudo docker rmi `docker images -aq` -f &>/dev/null || true
+
+# Rename compose and env file name
     cd /tmp/docker-$repo_name
-    docker-compose -f $compose_file_name pull 
+    sudo rm -rf docker-compose.yml .env
+    sudo mv $compose_file_name docker-compose.yml 1>/dev/null 2>&1
+    sudo mv .env_all .env 1>/dev/null 2>&1
+
+# Pull images and save images
+    docker-compose  pull 
     sudo echo -e "In image packaging, there is a long wait..." 
     sudo docker save $(docker images | grep -v REPOSITORY | awk 'BEGIN{OFS=":";ORS=" "}{print $1,$2}') -o /tmp/$repo_name.tar 
     sudo echo -e "The image was successfully saved as a tar package"
@@ -228,12 +235,6 @@ cat > /tmp/install.sh <<-EOF
     cp=\$(which cp)
     \$cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
   
-# Rename compose and env file name
-    cd $install_dir
-    sudo rm -rf docker-compose.yml .env
-    sudo mv $compose_file_name docker-compose.yml 1>/dev/null 2>&1
-    sudo mv .env_all .env 1>/dev/null 2>&1
-
 # Random password
     new_password=\$(date | md5sum | awk '{print $1}' |cut -c 3-18)
     db_password_lines=\$(cat $install_dir/.env |grep DB.*PASSWORD |wc -l)
