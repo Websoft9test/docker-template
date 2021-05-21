@@ -54,9 +54,8 @@ do
     esac
     shift
 done
-
-[ ! -n "$repo_name" ] && exit 0
-sudo echo "docker-$repo_name to be installed,Package as an image: $make_package"
+   
+  [ ! -n "$repo_name" ] && exit 1
 
 install_tools(){
   if command -v apt > /dev/null;then  
@@ -327,6 +326,14 @@ make_package(){
    cd ~  && sudo echo -e "Image packaging successfully"
 }
 
+  if [ -n "$repo_name" ] && [ "$make_package" == false ];then
+    sudo echo "docker-$repo_name to be installed..."
+  fi
+
+  if [ -n "$repo_name" ] && [ "$make_package" == true ];then
+      sudo echo "$repo_name will be packaged as an image..."
+  fi
+  
 install_tools
 
 get_install_information  
