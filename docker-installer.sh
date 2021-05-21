@@ -6,8 +6,8 @@ docker_download_url="https://download.docker.com/linux/static/stable/x86_64/dock
 
 # Please modify this version and time after update
 version(){
-    sudo echo "version: 1.4"
-    sudo echo "updated date: 20201-05-07"
+    sudo echo "version: 1.5"
+    sudo echo "updated date: 2021-05-21"
 }
 
 # Tool list, apt or yum installation is only supported  
