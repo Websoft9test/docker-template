@@ -317,7 +317,8 @@ if [[ $install_dir == "null" || $compose_file_name = "null" ]];then
        sudo echo "variables.json has an undefined parameter"
        exit 1
 fi
-   sudo echo $install_dir $compose_file_name
+     sudo echo install path $install_dir 
+     sudo echo compose filename $compose_file_name
 }
 
 make_package(){
@@ -326,6 +327,8 @@ make_package(){
    cd ~  && sudo echo -e "Image packaging successfully"
 }
 
+# Print installation information
+print_information(){
   if [ -n "$repo_name" ] && [ "$make_package" == false ];then
     sudo echo "docker-$repo_name to be installed..."
   fi
@@ -333,7 +336,10 @@ make_package(){
   if [ -n "$repo_name" ] && [ "$make_package" == true ];then
       sudo echo "$repo_name will be packaged as an image..."
   fi
-  
+}
+
+print_information
+
 install_tools
 
 get_install_information  
