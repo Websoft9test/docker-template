@@ -181,7 +181,7 @@ installation(){
 # Avoiding db port conflicts
     sudo echo -e "The database port is changing"
     db_port_lines=$(cat $install_dir/.env |grep DB_.*PORT |wc -l)
-    db_port=$(cat $install_dir/.env |grep DB_.*PORT |cut -d= -f2)
+    db_port=$(cat $install_dir/.env |grep DB_.*PORT |cut -d= -f2 |sed -n 1p)
  
     while true 
     do 
@@ -207,7 +207,7 @@ installation(){
 
     if  [ $db_password_lines -gt 0 ];then 
         if  [ $db_user_lines -gt 0 ];then 
-          db_username=$(cat $install_dir/.env |grep DB_.*_USER |cut -d= -f2 )
+          db_username=$(cat $install_dir/.env |grep DB_.*_USER |cut -d= -f2 |sed -n 1p )
           sudo echo "db username: $db_username" |tee -a /credentials/password.txt
         else
           sudo echo "db username: root" |tee -a /credentials/password.txt
@@ -230,7 +230,7 @@ installation(){
     app_port_lines=$(cat $install_dir/.env |grep -w "APP_PORT" |wc -l)
 
     if [ "$app_user_lines" -gt 0 ];then
-      app_username=$(cat $install_dir/.env |grep -w "APP_USER" |cut -d= -f2 ) 
+      app_username=$(cat $install_dir/.env |grep -w "APP_USER" |cut -d= -f2 |sed -n 1p) 
       sudo echo "$repo_name login username: $app_username" |tee -a /credentials/password.txt
     else
         sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
@@ -244,7 +244,7 @@ installation(){
     fi
 
     if [ "$app_port_lines" -gt 0 ];then
-      app_port=$(cat $install_dir/.env |grep -w "APP_PORT" |cut -d= -f2 ) 
+      app_port=$(cat $install_dir/.env |grep -w "APP_PORT" |cut -d= -f2 |sed -n 1p) 
       sudo echo "$repo_name login port: $app_port" |tee -a /credentials/password.txt
     fi
 
@@ -310,7 +310,7 @@ cat > /tmp/install.sh <<-EOF
     
 # Avoiding db port conflicts
     db_port_lines=\$(cat $install_dir/.env |grep DB_.*PORT |wc -l)
-    db_port=\$(cat $install_dir/.env |grep DB_.*PORT |cut -d= -f2)
+    db_port=\$(cat $install_dir/.env |grep DB_.*PORT |cut -d= -f2 |sed -n 1p)
 
     while true 
     do 
@@ -337,7 +337,7 @@ cat > /tmp/install.sh <<-EOF
 
   if  [ \$db_password_lines -gt 0 ];then 
       if  [ \$db_user_lines -gt 0 ];then 
-        db_username=\$(cat $install_dir/.env |grep DB_.*_USER |cut -d= -f2 )
+        db_username=\$(cat $install_dir/.env |grep DB_.*_USER |cut -d= -f2 |sed -n 1p)
         sudo echo "db username: \$db_username" |tee -a /credentials/password.txt
       else
         sudo echo "db username: root" |tee -a /credentials/password.txt
@@ -360,7 +360,7 @@ cat > /tmp/install.sh <<-EOF
   app_port_lines=\$(cat $install_dir/.env |grep -w "APP_PORT" |wc -l)
 
   if [ "\$app_user_lines" -gt 0 ];then
-      app_username=\$(cat $install_dir/.env |cut -d= -f2 ) 
+      app_username=\$(cat $install_dir/.env |cut -d= -f2 |sed -n 1p) 
       sudo echo "$repo_name login username: \$app_username" |tee -a /credentials/password.txt
   else
       sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
@@ -374,7 +374,7 @@ cat > /tmp/install.sh <<-EOF
   fi
 
   if [ "\$app_port_lines" -gt 0 ];then
-      app_port=\$(cat $install_dir/.env |grep -w "APP_PORT" |cut -d= -f2 ) 
+      app_port=\$(cat $install_dir/.env |grep -w "APP_PORT" |cut -d= -f2 |sed -n 1p) 
       sudo echo "$repo_name login port: \$app_port" |tee -a /credentials/password.txt
   fi
 
