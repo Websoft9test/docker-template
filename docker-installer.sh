@@ -260,7 +260,7 @@ installation(){
     "graylog")
       sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://$public_ip:9001/#g" $install_dir/.env
       ;;
-    *)  
+    *) 
       ;;
   esac
     
@@ -383,19 +383,17 @@ cat > /tmp/install.sh <<-EOF
 
 # Modify public network IP
   public_ip=\$(wget -O - https://download.websoft9.com/ansible/get_ip.sh 2>/dev/null | timeout 10 bash)
-  if [ -n "\$public" ];then 
-    case $repo_name in
-      "erpnext")
-        sudo sed -i "s/APP_SITE_NAME.*/APP_SITE_NAME=\$public_ip/g" $install_dir/.env
-        sudo sed -i "s/APP_SITES=.*/APP_SITES=\`\$public_ip\`/g" $install_dir/.env
-        ;;
-      "graylog")
-        sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://\$public_ip:9001/#g" $install_dir/.env
-        ;;
-      *)  
-        ;;
-    esac
-  fi
+  case $repo_name in
+    "erpnext")
+      sudo sed -i "s/APP_SITE_NAME.*/APP_SITE_NAME=\$public_ip/g" $install_dir/.env
+      sudo sed -i "s/APP_SITES=.*/APP_SITES=\`\$public_ip\`/g" $install_dir/.env
+      ;;
+    "graylog")
+      sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://\$public_ip:9001/#g" $install_dir/.env
+      ;;
+    *)  
+      ;;
+  esac
 
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
