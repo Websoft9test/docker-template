@@ -17,6 +17,8 @@ pwgen
 jq
 wget
 curl
+figlet
+sl
 )
 
 help_str="
@@ -269,7 +271,9 @@ installation(){
     export COMPOSE_HTTP_TIMEOUT=500
 
     sudo docker-compose up -d 
-    sudo clear && sudo docker ps -a  
+    sudo clear 
+    sudo docker ps -a  
+    sudo figlet websoft9
     sudo echo -e "$repo_name installation complete, Password stored in /credentials/password.txt"
 }
 
@@ -432,6 +436,7 @@ make_package(){
 
 # Print installation information
 print_information(){
+  sl
   if [ -n "$repo_name" ] && [ "$make_package" == false ];then
     sudo echo "docker-$repo_name to be installed..."
   fi
