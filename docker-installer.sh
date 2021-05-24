@@ -179,9 +179,10 @@ installation(){
     sudo docker-compose down -v 1>/dev/null 2>&1
 
 # Avoiding db port conflicts
+    sudo echo -e "The database port is changing"
     db_port_lines=$(cat $install_dir/.env |grep DB_.*PORT |wc -l)
     db_port=$(cat $install_dir/.env |grep DB_.*PORT |cut -d= -f2)
-
+ 
     while true 
     do 
        if [ "$db_port_lines" -gt 0 ];then
@@ -192,6 +193,7 @@ installation(){
           else 
               break
           fi
+       else
           break
        fi
     done
@@ -319,6 +321,7 @@ cat > /tmp/install.sh <<-EOF
           else 
               break
           fi
+       else
           break
        fi
     done
