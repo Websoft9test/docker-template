@@ -261,6 +261,9 @@ installation(){
     "graylog")
       sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://$public_ip:9001/#g" $install_dir/.env
       ;;
+    "rocketchat")
+      sudo sed -i "s#APP_ROOT_URL=.*#APP_ROOT_URL=http://$public_ip:9001/#g" $install_dir/.env
+      ;;
     *) 
       ;;
   esac
@@ -396,6 +399,9 @@ cat > /tmp/install.sh <<-EOF
     "graylog")
       sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://\$public_ip:9001/#g" $install_dir/.env
       ;;
+    "rocketchat")
+      sudo sed -i "s#APP_ROOT_URL=.*#APP_ROOT_URL=http://\$public_ip:9001/#g" $install_dir/.env
+      ;;
     *)  
       ;;
   esac
@@ -434,10 +440,14 @@ make_package(){
    cd ~  && sudo echo -e "Image packaging successfully"
 }
 
-# Print installation information
 print_information(){
+# Check if the repo exists
+  repo_name_exists=$(curl -s --head https://github.com/Websoft9/docker-$repo_name | head -n 1 |grep OK |wc -l) 
+  [ "$repo_name_exists" -ne 1 ] && sudo echo -e "The repo does not exist !" && exit 1 
+      
+# Print installation information
   if [ -n "$repo_name" ] && [ "$make_package" == false ];then
-    sudo echo "docker-$repo_name to be installed..."
+      sudo echo "docker-$repo_name to be installed..."
   fi
 
   if [ -n "$repo_name" ] && [ "$make_package" == true ];then
