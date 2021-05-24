@@ -400,7 +400,8 @@ cat > /tmp/install.sh <<-EOF
     export COMPOSE_HTTP_TIMEOUT=500
  
     sudo docker-compose up -d 
-    sudo clear && sudo docker ps -a  
+    sudo clear && sudo docker ps -a 
+    sudo echo -e "$repo_name installation complete, " 
 EOF
 }
 
