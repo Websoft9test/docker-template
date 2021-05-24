@@ -199,13 +199,14 @@ installation(){
     app_password_lines=$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
     app_user_lines=$(cat $install_dir/.env |grep APP_USER |wc -l)
 
+    if [ "$app_user_lines" -gt 0 ];then
+      app_username=$(cat $install_dir/.env |grep APP_USER|cut -d= -f2 ) 
+      sudo echo "$repo_name login username: $app_username" |tee -a /credentials/password.txt
+    else
+        sudo echo "$repo_name username: default login username, please see the $install_dir/.env" |tee -a /credentials/password.txt
+    fi
+    
     if  [ "$app_password_lines" -gt 0 ];then 
-      if [ "$app_user_lines" -gt 0 ];then
-        app_username=$(cat $install_dir/.env |grep APP_USER|cut -d= -f2 ) 
-        sudo echo "$repo_name login username: $app_username" |tee -a /credentials/password.txt
-      else
-          sudo echo "$repo_name username: default login username, please see the $install_dir/.env" |tee -a /credentials/password.txt
-      fi
       sudo sed -ri "s/(APP_PASSWORD=).*/\1$new_password/" $install_dir/.env &>/dev/null || true
       sudo echo "$repo_name login password: $new_password" |tee -a /credentials/password.txt
     else
@@ -278,15 +279,16 @@ cat > /tmp/install.sh <<-EOF
     sudo echo -e "************************************\n" |tee -a /credentials/password.txt
 
 # APP Random password  
-  app_password_lines=\$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
   app_user_lines=\$(cat $install_dir/.env |grep APP_USER |wc -l)
+  app_password_lines=\$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
+  if [ "\$app_user_lines" -gt 0 ];then
+      app_username=\$(cat $install_dir/.env |cut -d= -f2 ) 
+      sudo echo "$repo_name username: \$app_username" |tee -a /credentials/password.txt
+  else
+      sudo echo "$repo_name username: default login username, please see the $install_dir/.env" |tee -a /credentials/password.txt
+  fi
+  
   if  [ "\$app_password_lines" -gt 0 ];then 
-      if [ "\$app_user_lines" -gt 0 ];then
-         app_username=\$(cat $install_dir/.env |cut -d= -f2 ) 
-         sudo echo "$repo_name username: \$app_username" |tee -a /credentials/password.txt
-      else
-          sudo echo "$repo_name username: default login username, please see the $install_dir/.env" |tee -a /credentials/password.txt
-      fi
     sudo sed -ri "s/(APP_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
     sudo echo "$repo_name password: \$new_password" |tee -a /credentials/password.txt
   else
