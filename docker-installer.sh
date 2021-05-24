@@ -203,25 +203,46 @@ installation(){
       app_username=$(cat $install_dir/.env |grep APP_USER|cut -d= -f2 ) 
       sudo echo "$repo_name login username: $app_username" |tee -a /credentials/password.txt
     else
-        sudo echo "$repo_name username: default login username, please see the $install_dir/.env" |tee -a /credentials/password.txt
+        sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
     fi
     
     if  [ "$app_password_lines" -gt 0 ];then 
       sudo sed -ri "s/(APP_PASSWORD=).*/\1$new_password/" $install_dir/.env &>/dev/null || true
       sudo echo "$repo_name login password: $new_password" |tee -a /credentials/password.txt
     else
-      sudo echo "$repo_name login password: default login password, please see the $install_dir/.env" |tee -a /credentials/password.txt
+      sudo echo "$repo_name login password: default password, please see the $install_dir/.env" |tee -a /credentials/password.txt
     fi
 
     sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
 
+# Stop the container and remove the Volumes for sec_installation
+    cd $install_dir
+    rm -rf volumes
+    sudo docker-compose down -v 1>/dev/null 2>&1
+
+# Avoiding db port conflicts
+    db_port_lines=$(cat $install_dir/.env |grep DB_.*PORT |wc -l)
+    db_port=$(cat $install_dir/.env |grep DB_.*PORT |cut -d= -f2)
+
+    while true 
+    do 
+       if [ "$db_port_lines" -gt 0 ];then
+          os_db_port_lines=$(ss -ntulp |grep $db_port |wc -l)
+          if [ "$os_db_port_lines" -gt 0 ];then
+              db_port=`expr $db_port + 1`
+              sed -ri "s/(DB.*_PORT=).*/\1$db_port/" $install_dir/.env
+          else 
+              break
+          fi
+       fi
+    done
+
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
     export COMPOSE_HTTP_TIMEOUT=500
-    
-    cd $install_dir
+
     sudo docker-compose up -d 
-    sudo clear && sudo docker ps  -a  
+    sudo clear && sudo docker ps -a  
 }
 
 add_install_script(){
@@ -283,29 +304,50 @@ cat > /tmp/install.sh <<-EOF
   app_password_lines=\$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
   if [ "\$app_user_lines" -gt 0 ];then
       app_username=\$(cat $install_dir/.env |cut -d= -f2 ) 
-      sudo echo "$repo_name username: \$app_username" |tee -a /credentials/password.txt
+      sudo echo "$repo_name login username: \$app_username" |tee -a /credentials/password.txt
   else
-      sudo echo "$repo_name username: default login username, please see the $install_dir/.env" |tee -a /credentials/password.txt
+      sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
   fi
   
   if  [ "\$app_password_lines" -gt 0 ];then 
     sudo sed -ri "s/(APP_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
-    sudo echo "$repo_name password: \$new_password" |tee -a /credentials/password.txt
+    sudo echo "$repo_name login password: \$new_password" |tee -a /credentials/password.txt
   else
-    sudo echo "$repo_name password: default login password, please see the $install_dir/.env" |tee -a /credentials/password.txt
+    sudo echo "$repo_name login password: default password, please see the $install_dir/.env" |tee -a /credentials/password.txt
   fi
 
     sudo rm -rf \$cur_dir/{$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh,docker-$repo_name} 
 
     sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
 
+# Stop the container and remove the Volumes for sec_installation
+    cd $install_dir
+    rm -rf volumes
+    sudo docker-compose down -v 1>/dev/null 2>&1 
+    
+# Avoiding db port conflicts
+    db_port_lines=\$(cat $install_dir/.env |grep DB_.*PORT |wc -l)
+    db_port=\$(cat $install_dir/.env |grep DB_.*PORT |cut -d= -f2)
+
+    while true 
+    do 
+       if [ "\$db_port_lines" -gt 0 ];then
+          os_db_port_lines=\$(ss -ntulp |grep $db_port |wc -l)
+          if [ "\$os_db_port_lines" -gt 0 ];then
+              db_port=`expr \$db_port + 1`
+              sed -ri "s/(DB.*_PORT=).*/\1\$db_port/" $install_dir/.env
+          else 
+              break
+          fi
+       fi
+    done
+
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
     export COMPOSE_HTTP_TIMEOUT=500
-
-    cd $install_dir
-    sudo docker-compose up -d 1>/dev/null 2>&1
-    sudo clear && docker ps -a
+ 
+    sudo docker-compose up -d 
+    sudo clear && sudo docker ps -a  
 EOF
 }
 
