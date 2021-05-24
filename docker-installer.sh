@@ -18,7 +18,6 @@ jq
 wget
 curl
 figlet
-sl
 )
 
 help_str="
@@ -436,7 +435,6 @@ make_package(){
 
 # Print installation information
 print_information(){
-  sl
   if [ -n "$repo_name" ] && [ "$make_package" == false ];then
     sudo echo "docker-$repo_name to be installed..."
   fi
