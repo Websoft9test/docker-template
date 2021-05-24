@@ -192,6 +192,7 @@ installation(){
           else 
               break
           fi
+          break
        fi
     done
 
@@ -318,6 +319,7 @@ cat > /tmp/install.sh <<-EOF
           else 
               break
           fi
+          break
        fi
     done
 
