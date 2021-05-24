@@ -203,11 +203,13 @@ installation(){
       if [ "$app_user_lines" -gt 0 ];then
         app_username=$(cat $install_dir/.env |grep APP_USER|cut -d= -f2 ) 
         sudo echo "$repo_name login username: $app_username" |tee -a /credentials/password.txt
+      else
+          sudo echo "$repo_name username: default login username, please see the $install_dir/.env" |tee -a /credentials/password.txt
       fi
       sudo sed -ri "s/(APP_PASSWORD=).*/\1$new_password/" $install_dir/.env &>/dev/null || true
       sudo echo "$repo_name login password: $new_password" |tee -a /credentials/password.txt
     else
-      sudo echo "$repo_name login password: default password, please see the .env file" |tee -a /credentials/password.txt
+      sudo echo "$repo_name login password: default login password, please see the $install_dir/.env" |tee -a /credentials/password.txt
     fi
 
     sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
@@ -282,11 +284,13 @@ cat > /tmp/install.sh <<-EOF
       if [ "\$app_user_lines" -gt 0 ];then
          app_username=\$(cat $install_dir/.env |cut -d= -f2 ) 
          sudo echo "$repo_name username: \$app_username" |tee -a /credentials/password.txt
+      else
+          sudo echo "$repo_name username: default login username, please see the $install_dir/.env" |tee -a /credentials/password.txt
       fi
     sudo sed -ri "s/(APP_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
     sudo echo "$repo_name password: \$new_password" |tee -a /credentials/password.txt
   else
-    sudo echo "$repo_name password: default password, please see the .env file" |tee -a /credentials/password.txt
+    sudo echo "$repo_name password: default login password, please see the $install_dir/.env" |tee -a /credentials/password.txt
   fi
 
     sudo rm -rf \$cur_dir/{$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh,docker-$repo_name} 
