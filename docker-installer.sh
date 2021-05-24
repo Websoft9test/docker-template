@@ -186,7 +186,7 @@ installation(){
     while true 
     do 
        if [ "$db_port_lines" -gt 0 ];then
-          os_db_port_lines=$(ss -ntulp |grep $db_port |wc -l)
+          os_db_port_lines=$(ss -ntulp |grep -w "$db_port" |wc -l)
           if [ "$os_db_port_lines" -gt 0 ];then
               db_port=`expr $db_port + 1`
               sed -ri "s/(DB.*_PORT=).*/\1$db_port/" $install_dir/.env
@@ -225,12 +225,12 @@ installation(){
     sudo echo -e "************************************\n" |tee -a /credentials/password.txt
 
 # APP Random password
-    app_password_lines=$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
-    app_user_lines=$(cat $install_dir/.env |grep APP_USER |wc -l)
-    app_port_lines=$(cat $install_dir/.env |grep APP_PORT |wc -l)
+    app_password_lines=$(cat $install_dir/.env |grep -w "APP_PASSWORD" |wc -l)
+    app_user_lines=$(cat $install_dir/.env |grep -w "APP_USER" |wc -l)
+    app_port_lines=$(cat $install_dir/.env |grep -w "APP_PORT" |wc -l)
 
     if [ "$app_user_lines" -gt 0 ];then
-      app_username=$(cat $install_dir/.env |grep APP_USER|cut -d= -f2 ) 
+      app_username=$(cat $install_dir/.env |grep -w "APP_USER" |cut -d= -f2 ) 
       sudo echo "$repo_name login username: $app_username" |tee -a /credentials/password.txt
     else
         sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
@@ -244,7 +244,7 @@ installation(){
     fi
 
     if [ "$app_port_lines" -gt 0 ];then
-      app_port=$(cat $install_dir/.env |grep APP_PORT|cut -d= -f2 ) 
+      app_port=$(cat $install_dir/.env |grep -w "APP_PORT" |cut -d= -f2 ) 
       sudo echo "$repo_name login port: $app_port" |tee -a /credentials/password.txt
     fi
 
@@ -314,7 +314,7 @@ cat > /tmp/install.sh <<-EOF
     while true 
     do 
        if [ "\$db_port_lines" -gt 0 ];then
-          os_db_port_lines=\$(ss -ntulp |grep $db_port |wc -l)
+          os_db_port_lines=\$(ss -ntulp |grep \$db_port |wc -l)
           if [ "\$os_db_port_lines" -gt 0 ];then
               db_port=`expr \$db_port + 1`
               sed -ri "s/(DB.*_PORT=).*/\1\$db_port/" $install_dir/.env
@@ -354,9 +354,9 @@ cat > /tmp/install.sh <<-EOF
     sudo echo -e "************************************\n" |tee -a /credentials/password.txt
 
 # APP Random password  
-  app_user_lines=\$(cat $install_dir/.env |grep APP_USER |wc -l)
-  app_password_lines=\$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
-  app_port_lines=\$(cat $install_dir/.env |grep APP_PORT |wc -l)
+  app_user_lines=\$(cat $install_dir/.env |grep -w "APP_USER" |wc -l)
+  app_password_lines=\$(cat $install_dir/.env |grep -w "APP_PASSWORD" |wc -l)
+  app_port_lines=\$(cat $install_dir/.env |grep -w "APP_PORT" |wc -l)
 
   if [ "\$app_user_lines" -gt 0 ];then
       app_username=\$(cat $install_dir/.env |cut -d= -f2 ) 
@@ -373,7 +373,7 @@ cat > /tmp/install.sh <<-EOF
   fi
 
   if [ "\$app_port_lines" -gt 0 ];then
-      app_port=\$(cat $install_dir/.env |grep APP_PORT|cut -d= -f2 ) 
+      app_port=\$(cat $install_dir/.env |grep -w "APP_PORT" |cut -d= -f2 ) 
       sudo echo "$repo_name login port: \$app_port" |tee -a /credentials/password.txt
   fi
 
