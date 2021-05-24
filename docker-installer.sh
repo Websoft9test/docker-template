@@ -270,6 +270,7 @@ installation(){
 
     sudo docker-compose up -d 
     sudo clear && sudo docker ps -a  
+    sudo echo -e "$repo_name installation complete, Password stored in /credentials/password.txt"
 }
 
 add_install_script(){
@@ -401,7 +402,7 @@ cat > /tmp/install.sh <<-EOF
  
     sudo docker-compose up -d 
     sudo clear && sudo docker ps -a 
-    sudo echo -e "$repo_name installation complete, " 
+    sudo echo -e "$repo_name installation complete, Password stored in /credentials/password.txt" 
 EOF
 }
 
