@@ -273,7 +273,7 @@ installation(){
     sudo clear 
     sudo figlet websoft9
     sudo docker ps -a  
-    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt"
+    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n"
 }
 
 add_install_script(){
@@ -405,7 +405,7 @@ cat > /tmp/install.sh <<-EOF
  
     sudo docker-compose up -d 
     sudo clear && sudo docker ps -a 
-    sudo echo -e "$repo_name installation complete, Password stored in /credentials/password.txt" 
+    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n"  
 EOF
 }
 
