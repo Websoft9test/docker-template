@@ -270,6 +270,7 @@ installation(){
     export COMPOSE_HTTP_TIMEOUT=500
 
     sudo docker-compose up -d 
+    sleep 5
     sudo clear 
     sudo figlet websoft9
     sudo docker ps -a  
