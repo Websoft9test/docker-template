@@ -172,48 +172,6 @@ installation(){
     sudo rm -rf docker-compose.yml .env 
     sudo mv $compose_file_name docker-compose.yml 1>/dev/null 2>&1
     sudo mv .env_all .env 1>/dev/null 2>&1
-    
-# DB Random password
-    sudo echo -e "---$repo_name Installation Wizard---\n" |tee -a /credentials/password.txt
-    new_password=$(pwgen -ncCs 15 1)
-
-    db_password_lines=`cat $install_dir/.env |grep DB.*PASSWORD |wc -l`
-    db_user_lines=`cat $install_dir/.env |grep DB_.*_USER |wc -l`
-
-    if  [ $db_password_lines -gt 0 ];then 
-        if  [ $db_user_lines -gt 0 ];then 
-          db_username=$(cat $install_dir/.env |grep DB_.*_USER |cut -d= -f2 )
-          sudo echo "db username: $db_username" |tee -a /credentials/password.txt
-        else
-          sudo echo "db username: root" |tee -a /credentials/password.txt
-        fi
-      sudo sed -ri "s/(DB_.*_PASSWORD=).*/\1$new_password/" $install_dir/.env &>/dev/null || true
-      sudo echo "db password: $new_password" |tee -a /credentials/password.txt
-    else
-      sudo echo "No database password" |tee -a /credentials/password.txt
-    fi
-
-    sudo echo -e "************************************\n" |tee -a /credentials/password.txt
-
-# APP Random password
-    app_password_lines=$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
-    app_user_lines=$(cat $install_dir/.env |grep APP_USER |wc -l)
-
-    if [ "$app_user_lines" -gt 0 ];then
-      app_username=$(cat $install_dir/.env |grep APP_USER|cut -d= -f2 ) 
-      sudo echo "$repo_name login username: $app_username" |tee -a /credentials/password.txt
-    else
-        sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
-    fi
-    
-    if  [ "$app_password_lines" -gt 0 ];then 
-      sudo sed -ri "s/(APP_PASSWORD=).*/\1$new_password/" $install_dir/.env &>/dev/null || true
-      sudo echo "$repo_name login password: $new_password" |tee -a /credentials/password.txt
-    else
-      sudo echo "$repo_name login password: default password, please see the $install_dir/.env" |tee -a /credentials/password.txt
-    fi
-
-    sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
 
 # Stop the container and remove the Volumes for sec_installation
     cd $install_dir
@@ -237,6 +195,72 @@ installation(){
        fi
     done
 
+# DB Random password
+    sudo echo -e "---$repo_name Installation Wizard---\n" |tee -a /credentials/password.txt
+    new_password=$(pwgen -ncCs 15 1)
+
+    db_password_lines=`cat $install_dir/.env |grep DB.*PASSWORD |wc -l`
+    db_user_lines=`cat $install_dir/.env |grep DB_.*_USER |wc -l`
+
+    if  [ $db_password_lines -gt 0 ];then 
+        if  [ $db_user_lines -gt 0 ];then 
+          db_username=$(cat $install_dir/.env |grep DB_.*_USER |cut -d= -f2 )
+          sudo echo "db username: $db_username" |tee -a /credentials/password.txt
+        else
+          sudo echo "db username: root" |tee -a /credentials/password.txt
+        fi
+      sudo sed -ri "s/(DB_.*_PASSWORD=).*/\1$new_password/" $install_dir/.env &>/dev/null || true
+      sudo echo "db password: $new_password" |tee -a /credentials/password.txt
+    else
+      sudo echo "No database password" |tee -a /credentials/password.txt
+    fi
+
+    if [ "$db_port_lines" -gt 0 ];then
+      sudo echo "db port: $db_port" |tee -a /credentials/password.txt
+    fi
+
+    sudo echo -e "************************************\n" |tee -a /credentials/password.txt
+
+# APP Random password
+    app_password_lines=$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
+    app_user_lines=$(cat $install_dir/.env |grep APP_USER |wc -l)
+    app_port_lines=$(cat $install_dir/.env |grep APP_PORT |wc -l)
+
+    if [ "$app_user_lines" -gt 0 ];then
+      app_username=$(cat $install_dir/.env |grep APP_USER|cut -d= -f2 ) 
+      sudo echo "$repo_name login username: $app_username" |tee -a /credentials/password.txt
+    else
+        sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
+    fi
+    
+    if  [ "$app_password_lines" -gt 0 ];then 
+      sudo sed -ri "s/(APP_PASSWORD=).*/\1$new_password/" $install_dir/.env &>/dev/null || true
+      sudo echo "$repo_name login password: $new_password" |tee -a /credentials/password.txt
+    else
+      sudo echo "$repo_name login password: default password, please see the $install_dir/.env" |tee -a /credentials/password.txt
+    fi
+
+    if [ "$app_port_lines" -gt 0 ];then
+      app_port=$(cat $install_dir/.env |grep APP_PORT|cut -d= -f2 ) 
+      sudo echo "$repo_name login port: $app_port" |tee -a /credentials/password.txt
+    fi
+
+    sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
+
+# Modify public network IP
+  public_ip=`wget -O - https://download.websoft9.com/ansible/get_ip.sh | bash`
+  case $repo_name in
+    "erpnext")
+      sudo sed -i "s/APP_SITE_NAME.*/APP_SITE_NAME=$public_ip/g" $install_dir/.env
+      sudo sed -i "s/APP_SITES=.*/APP_SITES=\`$public_ip\`/g" $install_dir/.env
+      ;;
+    "graylog")
+      sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://$public_ip:9001/#g" $install_dir/.env
+      ;;
+    *)  
+      ;;
+  esac
+    
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
     export COMPOSE_HTTP_TIMEOUT=500
@@ -274,51 +298,6 @@ cat > /tmp/install.sh <<-EOF
     sudo rm -rf \$upper_dir/$repo_name
     cp=\$(which cp)
     \$cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
-  
-# DB Random password
-
-    sudo echo -e "---$repo_name Installation Wizard---\n" |tee -a /credentials/password.txt
-
-    new_password=\$(date | md5sum | awk '{print $1}' |cut -c 3-18)
-
-    db_password_lines=\$(cat $install_dir/.env |grep DB.*PASSWORD |wc -l)
-    db_user_lines=\$(cat $install_dir/.env |grep DB_.*_USER |wc -l)
-
-  if  [ \$db_password_lines -gt 0 ];then 
-      if  [ \$db_user_lines -gt 0 ];then 
-        db_username=\$(cat $install_dir/.env |grep DB_.*_USER |cut -d= -f2 )
-        sudo echo "db username: \$db_username" |tee -a /credentials/password.txt
-      else
-        sudo echo "db username: root" |tee -a /credentials/password.txt
-      fi
-    sudo sed -ri "s/(DB_.*_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
-    sudo echo "db password: \$new_password" |tee -a /credentials/password.txt
-  else
-    sudo echo "No database password" |tee -a /credentials/password.txt
-  fi
-
-    sudo echo -e "************************************\n" |tee -a /credentials/password.txt
-
-# APP Random password  
-  app_user_lines=\$(cat $install_dir/.env |grep APP_USER |wc -l)
-  app_password_lines=\$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
-  if [ "\$app_user_lines" -gt 0 ];then
-      app_username=\$(cat $install_dir/.env |cut -d= -f2 ) 
-      sudo echo "$repo_name login username: \$app_username" |tee -a /credentials/password.txt
-  else
-      sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
-  fi
-  
-  if  [ "\$app_password_lines" -gt 0 ];then 
-    sudo sed -ri "s/(APP_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
-    sudo echo "$repo_name login password: \$new_password" |tee -a /credentials/password.txt
-  else
-    sudo echo "$repo_name login password: default password, please see the $install_dir/.env" |tee -a /credentials/password.txt
-  fi
-
-    sudo rm -rf \$cur_dir/{$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh,docker-$repo_name} 
-
-    sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
 
 # Stop the container and remove the Volumes for sec_installation
     cd $install_dir
@@ -341,6 +320,61 @@ cat > /tmp/install.sh <<-EOF
           fi
        fi
     done
+
+# DB Random password
+    sudo echo -e "---$repo_name Installation Wizard---\n" |tee -a /credentials/password.txt
+
+    new_password=\$(date | md5sum | awk '{print $1}' |cut -c 3-18)
+
+    db_password_lines=\$(cat $install_dir/.env |grep DB.*PASSWORD |wc -l)
+    db_user_lines=\$(cat $install_dir/.env |grep DB_.*_USER |wc -l)
+
+  if  [ \$db_password_lines -gt 0 ];then 
+      if  [ \$db_user_lines -gt 0 ];then 
+        db_username=\$(cat $install_dir/.env |grep DB_.*_USER |cut -d= -f2 )
+        sudo echo "db username: \$db_username" |tee -a /credentials/password.txt
+      else
+        sudo echo "db username: root" |tee -a /credentials/password.txt
+      fi
+    sudo sed -ri "s/(DB_.*_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
+    sudo echo "db password: \$new_password" |tee -a /credentials/password.txt
+  else
+    sudo echo "No database password" |tee -a /credentials/password.txt
+  fi
+
+  if [ "\$db_port_lines" -gt 0 ];then
+      sudo echo "db port: \$db_port" |tee -a /credentials/password.txt
+  fi
+
+    sudo echo -e "************************************\n" |tee -a /credentials/password.txt
+
+# APP Random password  
+  app_user_lines=\$(cat $install_dir/.env |grep APP_USER |wc -l)
+  app_password_lines=\$(cat $install_dir/.env |grep APP_PASSWORD |wc -l)
+  app_port_lines=\$(cat $install_dir/.env |grep APP_PORT |wc -l)
+
+  if [ "\$app_user_lines" -gt 0 ];then
+      app_username=\$(cat $install_dir/.env |cut -d= -f2 ) 
+      sudo echo "$repo_name login username: \$app_username" |tee -a /credentials/password.txt
+  else
+      sudo echo "$repo_name login username: default username, please see the $install_dir/.env" |tee -a /credentials/password.txt
+  fi
+  
+  if  [ "\$app_password_lines" -gt 0 ];then 
+    sudo sed -ri "s/(APP_PASSWORD=).*/\1\$new_password/" $install_dir/.env &>/dev/null || true
+    sudo echo "$repo_name login password: \$new_password" |tee -a /credentials/password.txt
+  else
+    sudo echo "$repo_name login password: default password, please see the $install_dir/.env" |tee -a /credentials/password.txt
+  fi
+
+  if [ "\$app_port_lines" -gt 0 ];then
+      app_port=\$(cat $install_dir/.env |grep APP_PORT|cut -d= -f2 ) 
+      sudo echo "$repo_name login port: \$app_port" |tee -a /credentials/password.txt
+  fi
+
+    sudo rm -rf \$cur_dir/{$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh,docker-$repo_name} 
+
+    sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
 
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
