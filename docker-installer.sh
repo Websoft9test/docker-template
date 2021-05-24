@@ -248,18 +248,20 @@ installation(){
     sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
 
 # Modify public network IP
-  public_ip=`wget -O - https://download.websoft9.com/ansible/get_ip.sh | bash`
-  case $repo_name in
-    "erpnext")
-      sudo sed -i "s/APP_SITE_NAME.*/APP_SITE_NAME=$public_ip/g" $install_dir/.env
-      sudo sed -i "s/APP_SITES=.*/APP_SITES=\`$public_ip\`/g" $install_dir/.env
-      ;;
-    "graylog")
-      sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://$public_ip:9001/#g" $install_dir/.env
-      ;;
-    *)  
-      ;;
-  esac
+  public_ip=`wget -O - https://download.websoft9.com/ansible/get_ip.sh |bash`
+  if [ -n "$public" ];then 
+    case $repo_name in
+      "erpnext")
+        sudo sed -i "s/APP_SITE_NAME.*/APP_SITE_NAME=$public_ip/g" $install_dir/.env
+        sudo sed -i "s/APP_SITES=.*/APP_SITES=\`$public_ip\`/g" $install_dir/.env
+        ;;
+      "graylog")
+        sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://$public_ip:9001/#g" $install_dir/.env
+        ;;
+      *)  
+        ;;
+    esac
+  fi
     
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
@@ -375,6 +377,22 @@ cat > /tmp/install.sh <<-EOF
     sudo rm -rf \$cur_dir/{$repo_name.tar,get-docker.sh,docker.service,docker-compose,docker.tgz,docker,install.sh,docker-$repo_name} 
 
     sudo echo -e "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" |tee -a /credentials/password.txt
+
+# Modify public network IP
+  public_ip=\$(wget -O - https://download.websoft9.com/ansible/get_ip.sh | timeout 10 bash)
+  if [ -n "\$public" ];then 
+    case $repo_name in
+      "erpnext")
+        sudo sed -i "s/APP_SITE_NAME.*/APP_SITE_NAME=\$public_ip/g" $install_dir/.env
+        sudo sed -i "s/APP_SITES=.*/APP_SITES=\`\$public_ip\`/g" $install_dir/.env
+        ;;
+      "graylog")
+        sudo sed -i "s#APP_HTTP_EXTERNAL_URI=.*#APP_HTTP_EXTERNAL_URI=http://\$public_ip:9001/#g" $install_dir/.env
+        ;;
+      *)  
+        ;;
+    esac
+  fi
 
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
