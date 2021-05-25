@@ -157,7 +157,8 @@ save_images(){
     sudo mv .env_all .env 1>/dev/null 2>&1
 
 # Pull images and save images
-    docker-compose  pull 
+    sudo systemctl start docker
+    docker-compose pull 
     sudo echo -e "In image packaging, there is a long wait..." 
     sudo docker save $(docker images | grep -v REPOSITORY | awk 'BEGIN{OFS=":";ORS=" "}{print $1,$2}') -o /tmp/$repo_name.tar 
     sudo echo -e "The image was successfully saved as a tar package"
@@ -271,7 +272,8 @@ installation(){
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
     export COMPOSE_HTTP_TIMEOUT=500
-
+    
+    sudo systemctl start docker
     sudo docker-compose up -d 
     sleep 5
     sudo clear 
@@ -409,7 +411,8 @@ cat > /tmp/install.sh <<-EOF
 # Change compose cli environment
     export DOCKER_CLIENT_TIMEOUT=500
     export COMPOSE_HTTP_TIMEOUT=500
- 
+    
+    sudo systemctl start docker
     sudo docker-compose up -d 
     sudo clear && sudo docker ps -a 
     sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n"  
