@@ -445,7 +445,7 @@ make_package(){
 
 print_information(){
 # Check if the repo exists
-  repo_name_exists=$(curl -s --head https://github.com/Websoft9/docker-$repo_name | head -n 1 |grep OK |wc -l) 
+  repo_name_exists=$(curl -s --head https://github.com/Websoft9/docker-$repo_name | head -n 1 |grep -c '200') 
   [ "$repo_name_exists" -ne 1 ] && sudo echo -e "The repo does not exist !" && exit 1 
       
 # Print installation information
