@@ -162,7 +162,7 @@ save_images(){
     docker-compose pull 
     sudo echo -e "In image packaging, there is a long wait..." 
     sudo docker save $(docker images | grep -v REPOSITORY | awk 'BEGIN{OFS=":";ORS=" "}{print $1,$2}') -o /tmp/$repo_name.tar 
-    sudo echo -e "The image was successfully saved as a tar package" |boxes -d whirly
+    sudo echo -e "The image was successfully saved as a tar package" 
 }
 
 installation(){
@@ -202,7 +202,7 @@ installation(){
     done
 
 # DB Random password
-    sudo echo -e "-----$repo_name Installation Wizard------" |boxes |tee -a /credentials/password.txt
+    sudo echo -e "---$repo_name Installation Wizard----" |boxes |tee -a /credentials/password.txt
     new_password=$(pwgen -ncCs 15 1)
 
     db_password_lines=`cat $install_dir/.env |grep DB.*PASSWORD |wc -l`
@@ -278,12 +278,14 @@ installation(){
     sudo docker-compose up -d 
     sleep 5
     sudo clear 
-    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n" |boxes -d whirly
+    sudo echo -e "\n $repo_name installation complete\n" |boxes -d whirly
     sudo docker ps -a   
 }
 
 add_install_script(){
-    sudo rm -rf /tmp/install.sh
+    sudo rm -rf /tmp/install.sh /tmp/README /tmp/setup.sh
+
+# Mirror package installation script
 cat > /tmp/install.sh <<-EOF
 # Install docker
     sudo tar -xf docker.tgz 
@@ -415,8 +417,28 @@ cat > /tmp/install.sh <<-EOF
     sudo systemctl start docker
     sudo docker-compose up -d 
     sudo clear && sudo docker ps -a 
-    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n"  
+    sudo echo -e "\n $repo_name installation complete\n"  
 EOF
+
+# README file
+cat > /tmp/README <<-EOF
+    Document address: http://support.websoft9.com/docs/$repo_name/zh/
+    Project address: https://github.com/websoft9/docker-$repo_name
+    Password file: /credentials/password.txt
+EOF
+
+# Unpack the pre-installed script
+cat > /tmp/setup.sh <<-EOF
+    #!/bin/bash
+    line=\$(wc -l $0|awk '{print $1}')
+    line=\$(expr $line - 7) ## 7 is the number of script lines
+    tail -n \$line \$0 |tar zx -C ~
+    cd ~
+    bash install.sh
+    ret=\$?
+    exit \$ret
+EOF
+
 }
 
 get_install_information(){
@@ -438,9 +460,11 @@ fi
 }
 
 make_package(){
-   sudo rm -rf ~/$repo_name.tgz 
-   cd /tmp && tar -zcPf ~/$repo_name.tgz ./{install.sh,$repo_name.tar,docker-$repo_name,docker.tgz,docker.service,docker-compose}
-   cd ~  && sudo echo -e "Image packaging successfully"
+   sudo rm -rf ~/$repo_name.tgz install_$repo_name
+   cd /tmp && tar -zcPf ~/$repo_name.tgz ./{install.sh,README,$repo_name.tar,docker-$repo_name,docker.tgz,docker.service,docker-compose}
+   sudo cat /tmp/setup.sh ~/$repo_name.tgz > ~/install_$repo_name
+   chmod +x ~/install_$repo_name
+   cd ~  && sudo echo -e "Image packaging successfully" |boxes -d whirly
 }
 
 print_information(){
