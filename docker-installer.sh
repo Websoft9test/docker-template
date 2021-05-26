@@ -5,8 +5,8 @@ set -e
 
 # Please modify this version and time after update
 version(){
-    sudo echo "version: 1.5"
-    sudo echo "updated date: 2021-05-21"
+    sudo echo "version: 1.6"
+    sudo echo "updated date: 2021-05-26"
 }
 
 # Tool list, apt or yum installation is only supported  
