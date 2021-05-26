@@ -367,7 +367,7 @@ cat > /tmp/install.sh <<-EOF
 
 # APP Random password  
   app_user_lines=\$(cat $install_dir/.env |grep -w "APP_USER" |wc -l)
-  app_password_lines=\$(cat $install_dir/.env |grep -w "APP_PASSWORD" |wc -l)
+  app_password_lines=\$(cat $install_dir/.env |grep -w "APP_PASSWORD_INIT" |wc -l)
   app_port_lines=\$(cat $install_dir/.env |grep -w "APP_PORT" |wc -l)
 
   if [ "\$app_user_lines" -gt 0 ];then
