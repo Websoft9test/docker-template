@@ -228,7 +228,7 @@ installation(){
     sudo echo -e "************************************\n"|tee -a /credentials/password.txt
 
 # APP Random password
-    app_password_lines=$(cat $install_dir/.env |grep -w "APP_PASSWORD" |wc -l)
+    app_password_lines=$(cat $install_dir/.env |grep -w "APP_PASSWORD_INIT" |wc -l)
     app_user_lines=$(cat $install_dir/.env |grep -w "APP_USER" |wc -l)
     app_port_lines=$(cat $install_dir/.env |grep -w "APP_PORT" |wc -l)
 
@@ -422,21 +422,21 @@ EOF
 
 # README file
 cat > /tmp/README <<-EOF
-    Document address: http://support.websoft9.com/docs/$repo_name/zh/
-    Project address: https://github.com/websoft9/docker-$repo_name
-    Password file: /credentials/password.txt
+Document address: http://support.websoft9.com/docs/$repo_name/zh/
+Project address: https://github.com/websoft9/docker-$repo_name
+Password file: /credentials/password.txt
 EOF
 
 # Unpack the pre-installed script
 cat > /tmp/setup.sh <<-EOF
-    #!/bin/bash
-    line=\$(wc -l $0|awk '{print $1}')
-    line=\$(expr $line - 7) ## 7 is the number of script lines
-    tail -n \$line \$0 |tar zx -C ~
-    cd ~
-    bash install.sh
-    ret=\$?
-    exit \$ret
+#!/bin/bash
+line=\$(wc -l $0|awk '{print $1}')
+line=\$(expr \$line - 7) ## 7 is the number of script lines
+tail -n \$line \$0 |tar zx -C ~
+cd ~
+bash install.sh
+ret=\$?
+exit \$ret
 EOF
 
 }
@@ -463,7 +463,8 @@ make_package(){
    sudo rm -rf ~/$repo_name.tgz install_$repo_name
    cd /tmp && tar -zcPf ~/$repo_name.tgz ./{install.sh,README,$repo_name.tar,docker-$repo_name,docker.tgz,docker.service,docker-compose}
    sudo cat /tmp/setup.sh ~/$repo_name.tgz > ~/install_$repo_name
-   chmod +x ~/install_$repo_name
+   sudo chmod +x ~/install_$repo_name
+   sudo rm -rf get-docker.sh redmine.tgz 
    cd ~  && sudo echo -e "Image packaging successfully" |boxes -d whirly
 }
 
