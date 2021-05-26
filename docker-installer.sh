@@ -162,7 +162,7 @@ save_images(){
     docker-compose pull 
     sudo echo -e "In image packaging, there is a long wait..." 
     sudo docker save $(docker images | grep -v REPOSITORY | awk 'BEGIN{OFS=":";ORS=" "}{print $1,$2}') -o /tmp/$repo_name.tar 
-    sudo echo -e "The image was successfully saved as a tar package"
+    sudo echo -e "The image was successfully saved as a tar package" |boxes -d whirly
 }
 
 installation(){
@@ -278,7 +278,7 @@ installation(){
     sudo docker-compose up -d 
     sleep 5
     sudo clear 
-    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n" |boxes -d mouse 
+    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n" |boxes -d whirly
     sudo docker ps -a   
 }
 
@@ -420,8 +420,6 @@ EOF
 }
 
 get_install_information(){
-   sudo figlet websoft9
-
    install_dir=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .installpath` 1>/dev/null
    compose_file_name=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .compose_file` 1>/dev/null
    compose_env_url="https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/.env_all"
@@ -446,6 +444,7 @@ make_package(){
 }
 
 print_information(){
+  sudo figlet websoft9
 # Check if the repo exists
   repo_name_exists=$(curl -s --head https://github.com/Websoft9/docker-$repo_name | head -n 1 |grep -c '200') 
   [ "$repo_name_exists" -ne 1 ] && sudo echo -e "The repo does not exist !" && exit 1 
