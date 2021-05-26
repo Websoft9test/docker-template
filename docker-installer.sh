@@ -119,7 +119,7 @@ install_docker_script(){
   else 
     sudo curl -fsSL https://get.docker.com -o get-docker.sh &>/dev/null && sh get-docker.sh &>/dev/null 
     sudo systemctl start docker 
-    sudo systemctl enable docker
+    sudo systemctl enable docker &>/dev/null
     sudo echo -e `docker -v`
     sudo echo -e "Docker installed successfully"
   fi
@@ -294,7 +294,7 @@ cat > /tmp/install.sh <<-EOF
     sudo mv docker/* /usr/bin/  
     sudo systemctl daemon-reload
     sudo systemctl start docker
-    sudo systemctl enable docker
+    sudo systemctl enable docker &>/dev/null
     sudo echo \$(docker -v)
     sudo echo -e "Docker was installed successfully"
 
@@ -313,6 +313,7 @@ cat > /tmp/install.sh <<-EOF
     sudo rm -rf \$upper_dir/$repo_name
     cp=\$(which cp)
     \$cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
+    sudo mv README \$upper_dir/$repo_name/README
 
 # Stop the container and remove the Volumes for sec_installation
     cd $install_dir
@@ -422,23 +423,28 @@ EOF
 
 # README file
 cat > /tmp/README <<-EOF
-Document address: http://support.websoft9.com/docs/$repo_name/zh/
-Project address: https://github.com/websoft9/docker-$repo_name
-Password file: /credentials/password.txt
+Document address:
+    http://support.websoft9.com/docs/$repo_name/zh/
+Project address: 
+    https://github.com/websoft9/docker-$repo_name
+Password file location: 
+    /credentials/password.txt
 EOF
 
 # Unpack the pre-installed script
 cat > /tmp/setup.sh <<-EOF
-#!/bin/bash
-line=\$(wc -l $0|awk '{print $1}')
-line=\$(expr \$line - 7) ## 7 is the number of script lines
-tail -n \$line \$0 |tar zx -C ~
+#!/bin/bash   
+line=\`wc -l \$0|awk '{print \$1}'\`   
+line=\`expr \$line - 7\`   
+tail -n \$line \$0 |tar zx -C ~ 
 cd ~
-bash install.sh
-ret=\$?
+./install.sh   
+ret=\$?   
 exit \$ret
 EOF
 
+sudo chmod +x /tmp/install.sh 
+sudo chmod +x /tmp/setup.sh 
 }
 
 get_install_information(){
@@ -460,11 +466,10 @@ fi
 }
 
 make_package(){
-   sudo rm -rf ~/$repo_name.tgz install_$repo_name
-   cd /tmp && tar -zcPf ~/$repo_name.tgz ./{install.sh,README,$repo_name.tar,docker-$repo_name,docker.tgz,docker.service,docker-compose}
-   sudo cat /tmp/setup.sh ~/$repo_name.tgz > ~/install_$repo_name
-   sudo chmod +x ~/install_$repo_name
-   sudo rm -rf get-docker.sh redmine.tgz 
+   sudo rm -rf /tmp/$repo_name.tgz install_$repo_name
+   cd /tmp && tar -zcf /tmp/$repo_name.tgz ./{install.sh,README,$repo_name.tar,docker-$repo_name,docker.tgz,docker.service,docker-compose}
+   sudo cat setup.sh $repo_name.tgz > ~/install-$repo_name
+   sudo chmod +x ~/install-$repo_name
    cd ~  && sudo echo -e "Image packaging successfully" |boxes -d whirly
 }
 
