@@ -118,11 +118,13 @@ install_docker_script(){
     sudo echo -e "Docker installed successfully"
   else 
     sudo curl -fsSL https://get.docker.com -o get-docker.sh &>/dev/null && sh get-docker.sh &>/dev/null 
+    sudo rm -rf get-docker.sh
     sudo systemctl start docker 
     sudo systemctl enable docker &>/dev/null
     sudo echo -e `docker -v`
     sudo echo -e "Docker installed successfully"
   fi
+  
 }
 
 uninstall_docker(){
