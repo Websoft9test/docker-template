@@ -2,7 +2,6 @@
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 
 set -e
-docker_download_url="https://download.docker.com/linux/static/stable/x86_64/docker-20.10.6.tgz"
 
 # Please modify this version and time after update
 version(){
@@ -18,6 +17,7 @@ jq
 wget
 curl
 figlet
+boxes
 )
 
 help_str="
@@ -70,6 +70,7 @@ install_tools(){
 }
 
 download_docker_source(){
+    docker_download_url="https://download.docker.com/linux/static/stable/x86_64/docker-20.10.6.tgz"
     cd /tmp/
     sudo rm -rf docker.tgz
     sudo wget $docker_download_url -O docker.tgz 1>/dev/null 2>&1
@@ -201,7 +202,7 @@ installation(){
     done
 
 # DB Random password
-    sudo echo -e "---$repo_name Installation Wizard---\n" |tee -a /credentials/password.txt
+    sudo echo -e "-----$repo_name Installation Wizard------" |boxes |tee -a /credentials/password.txt
     new_password=$(pwgen -ncCs 15 1)
 
     db_password_lines=`cat $install_dir/.env |grep DB.*PASSWORD |wc -l`
@@ -224,7 +225,7 @@ installation(){
       sudo echo "db port: $db_port" |tee -a /credentials/password.txt
     fi
 
-    sudo echo -e "************************************\n" |tee -a /credentials/password.txt
+    sudo echo -e "************************************\n"|tee -a /credentials/password.txt
 
 # APP Random password
     app_password_lines=$(cat $install_dir/.env |grep -w "APP_PASSWORD" |wc -l)
@@ -277,9 +278,8 @@ installation(){
     sudo docker-compose up -d 
     sleep 5
     sudo clear 
-    sudo figlet websoft9
-    sudo docker ps -a  
-    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n"
+    sudo echo -e "\n $repo_name installation complete, Password stored in /credentials/password.txt \n" |boxes -d mouse 
+    sudo docker ps -a   
 }
 
 add_install_script(){
@@ -420,6 +420,8 @@ EOF
 }
 
 get_install_information(){
+   sudo figlet websoft9
+
    install_dir=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .installpath` 1>/dev/null
    compose_file_name=`curl -s https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/variables.json |jq -r .compose_file` 1>/dev/null
    compose_env_url="https://raw.githubusercontent.com/Websoft9/docker-$repo_name/main/.env_all"
@@ -458,9 +460,9 @@ print_information(){
   fi
 }
 
-print_information
-
 install_tools
+
+print_information
 
 get_install_information  
 
