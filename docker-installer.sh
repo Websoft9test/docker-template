@@ -468,7 +468,7 @@ fi
 }
 
 make_package(){
-   sudo rm -rf /tmp/$repo_name.tgz install_$repo_name
+   sudo rm -rf /tmp/$repo_name.tgz install-$repo_name
    cd /tmp && tar -zcf /tmp/$repo_name.tgz ./{install.sh,README,$repo_name.tar,docker-$repo_name,docker.tgz,docker.service,docker-compose}
    sudo cat setup.sh $repo_name.tgz > ~/install-$repo_name
    sudo chmod +x ~/install-$repo_name
