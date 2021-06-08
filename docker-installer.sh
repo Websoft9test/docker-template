@@ -292,8 +292,8 @@ cat > /tmp/install.sh <<-EOF
 # Install docker
     sudo tar -xf docker.tgz 
     sudo systemctl stop docker &>/dev/mull || true
-    sudo mv docker.service /etc/systemd/system/docker.service
-    sudo mv docker/* /usr/bin/  
+    sudo mv docker.service /etc/systemd/system/docker.service 
+    sudo mv docker/* /usr/bin/  1>/dev/null 2>&1
     sudo systemctl daemon-reload
     sudo systemctl start docker
     sudo systemctl enable docker &>/dev/null
@@ -301,7 +301,7 @@ cat > /tmp/install.sh <<-EOF
     sudo echo -e "Docker was installed successfully"
 
 # Install docker-compose
-    sudo mv docker-compose /usr/local/bin/docker-compose
+    sudo mv docker-compose /usr/local/bin/docker-compose 1>/dev/null 2>&1
     sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose &>/dev/mull || true
     sudo echo \$(docker-compose -v)
     sudo echo -e "docker-compose installed successfully"
@@ -314,8 +314,8 @@ cat > /tmp/install.sh <<-EOF
     upper_dir=\$(dirname $install_dir)
     sudo rm -rf \$upper_dir/$repo_name
     cp=\$(which cp)
-    \$cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 
-    sudo mv README \$upper_dir/$repo_name/README
+    \$cp -rf \$cur_dir/docker-$repo_name \$upper_dir/$repo_name 1>/dev/null 2>&1
+    sudo mv README \$upper_dir/$repo_name/README 1>/dev/null 2>&1
 
 # Stop the container and remove the Volumes for sec_installation
     cd $install_dir
