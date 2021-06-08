@@ -168,8 +168,8 @@ save_images(){
 }
 
 installation(){
-    sudo rm -rf $install_dir /credentials
-    sudo mkdir -p $install_dir /credentials &&  cd $install_dir  
+    sudo rm -rf $install_dir 
+    sudo mkdir -p $install_dir /credentials 1>/dev/null 2>&1 &&  cd $install_dir  
     sudo git clone https://github.com/Websoft9/docker-$repo_name.git $install_dir 
 
 # Rename compose and env file name
@@ -281,6 +281,7 @@ installation(){
     sleep 5
     sudo clear 
     sudo echo -e "\n $repo_name installation complete\n" |boxes -d whirly
+    sudo echo -e "\n Please go to $repo_name to view the README file"
     sudo docker ps -a   
 }
 
@@ -307,8 +308,8 @@ cat > /tmp/install.sh <<-EOF
     sudo echo -e "docker-compose installed successfully"
 
 # Pre_installation
-    sudo rm -rf $install_dir /credentials
-    sudo mkdir -p $install_dir /credentials 
+    sudo rm -rf $install_dir
+    sudo mkdir -p $install_dir /credentials  1>/dev/null 2>&1
     sudo docker load -i $repo_name.tar 
     cur_dir=\$(pwd)
     upper_dir=\$(dirname $install_dir)
@@ -421,6 +422,7 @@ cat > /tmp/install.sh <<-EOF
     sudo docker-compose up -d 
     sudo clear && sudo docker ps -a 
     sudo echo -e "\n $repo_name installation complete\n"  
+    sudo echo -e "\n Please go to \$upper_dir/$repo_name to view the README file"
 EOF
 
 # README file
