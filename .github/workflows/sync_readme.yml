@@ -49,6 +49,7 @@ jobs:
                   docker-mautic
                   docker-mediawiki
                   docker-memcached
+                  docker-memadmin
                   docker-metabase
                   docker-mingdao
                   docker-mongodb
