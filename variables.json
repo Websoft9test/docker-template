@@ -58,54 +58,55 @@
   ],
 
   
-  "catalog":[
+  "catalog":
     {
-      "directory": ".git"
+      "directory": ".git",
+      "files":[
+        {
+          "file": ".github/ISSUE_TEMPLATE/bug_report.md"
+        },
+        {
+          "file": ".git/ISSUE_TEMPLATE/documentation_report.md"
+        },
+        {
+          "file": ".git/ISSUE_TEMPLATE/feature_request.md"
+        },
+        {
+          "file": ".git/workflows/mirror.yml"
+        },
+        {
+          "file": ".git/workflows/sync_source.yml"
+        },
+        {
+          "file": ".git/workflows/templating.yml"
+        },
+        {
+          "file": ".git/workflows/use.md"
+        },
+        {
+          "file": "CHANGELOG.md"
+        },
+        {
+          "file": "LICENSE.md"
+        },
+        {
+          "file": "README.md"
+        },
+        {
+          "file": "README-zh.md"
+        },
+        {
+          "file": "Notes.md"
+        },
+        {
+          "file": "docker-compose-production.yml"
+        },
+        {
+          "file": "variables.json"
+        }
+      ]
     },
-    {
-      "file": ".github/ISSUE_TEMPLATE/bug_report.md"
-    },
-    {
-      "file": ".git/ISSUE_TEMPLATE/documentation_report.md"
-    },
-    {
-      "file": ".git/ISSUE_TEMPLATE/feature_request.md"
-    },
-    {
-      "file": ".git/workflows/mirror.yml"
-    },
-    {
-      "file": ".git/workflows/sync_source.yml"
-    },
-    {
-      "file": ".git/workflows/templating.yml"
-    },
-    {
-      "file": ".git/workflows/use.md"
-    },
-    {
-      "file": "CHANGELOG.md"
-    },
-    {
-      "file": "LICENSE.md"
-    },
-    {
-      "file": "README.md"
-    },
-    {
-      "file": "README-zh.md"
-    },
-    {
-      "file": "Notes.md"
-    },
-    {
-      "file": "docker-compose-production.yml"
-    },
-    {
-      "file": "variables.json"
-    }
-    
-  ],
+
 
   "faqs": [
     {
