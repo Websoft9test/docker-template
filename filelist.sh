@@ -30,7 +30,9 @@ do
   fi
 done
 
-rm -rf *
-cp -arf /tmp/docker-$repo/* .
+if [ -d /tmp/docker-$repo/ ];then
+   rm -rf *
+   cp -arf /tmp/docker-$repo/* .
+fi
 rm -rf $0
 
