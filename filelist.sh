@@ -1,4 +1,3 @@
-```shell
 #!/bin/bash
 
 file_list=(
@@ -33,5 +32,4 @@ done
 rm -rf *
 cp -arf /tmp/docker-$repo/* .
 rm -rf $0
-```
 
