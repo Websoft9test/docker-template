@@ -15,7 +15,7 @@ repo=$(cat ./variables.json |jq -r .name)
 fork_url=$(cat ./variables.json |jq -r .fork_url)
 
 rm -rf /tmp/docker-$repo
-git clone $fork_url /tmp/docker-$repo
+git clone --depth=1 $fork_url /tmp/docker-$repo
 [[ $? -ne 0 ]] && exit
 rm -rf /tmp/docker-$repo/{.git,.github}
 
