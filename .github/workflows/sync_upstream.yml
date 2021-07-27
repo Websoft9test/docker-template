@@ -4,8 +4,6 @@ on:
   repository_dispatch:
   push:
     paths: [.env_all, docker-compose-production*.yml]
-  schedule:
-    - cron: '59 17 26 * *'
 
 jobs:
   build:
