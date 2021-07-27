@@ -1,4 +1,4 @@
- name: Sync remoting source
+name: Sync remoting source
 
 on: 
   repository_dispatch:
