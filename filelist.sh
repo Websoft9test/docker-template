@@ -12,7 +12,7 @@ file_list=(
 
 repo=$(cat ./variables.json |jq -r .name)
 
-fork_url=$(cat ./variables.json |jq -r .fork_url)
+fork_url=$(curl -s https://api.github.com/repos/Websoft9/docker-$repo | grep '"html_url"' | sed -n '5p' | awk -F "\"" '{print $4}')
 
 rm -rf /tmp/docker-$repo
 git clone --depth=1 $fork_url /tmp/docker-$repo
