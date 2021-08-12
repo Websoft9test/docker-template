@@ -1,5 +1,5 @@
 {
-  "name": "onlyoffice",
+  "name": "template",
   "trademark": "ONLYOFFICE",
   "installpath": "/data/wwwroot/onlyoffice",
   "compose_file": "docker-compose-production.yml",
