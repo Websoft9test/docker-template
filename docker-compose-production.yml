@@ -99,7 +99,9 @@ networks:
     
 volumes:
   document_data:
+    driver: local
   document_log:
+    driver: local
   document_forgotten:
   community_mysql:
   community_data:
