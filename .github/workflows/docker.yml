@@ -17,5 +17,6 @@ jobs:
 
       - name: npm install jinjia2-cli
         run: |
-         echo ${{github.event.repository.name:7}}
+         repo=${{github.event.repository.name}}
+         echo ${repo:7}
          echo "ok"
