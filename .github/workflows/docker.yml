@@ -14,14 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Check out code
-
+         
       - name: npm install jinjia2-cli
         run: |
          repo=${{github.event.repository.name}}
-         appname=${repo:7}
-         echo "start"
-
-      - name: test
-        run: |
-         echo $appname
-         echo "ok"
+         echo ${{ env.APP_NAME }}
+        env:
+          APP_NAME: ${repo:7}
