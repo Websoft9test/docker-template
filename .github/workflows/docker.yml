@@ -11,6 +11,8 @@ jobs:
   build:
     name: Build Docker image
     runs-on: ubuntu-latest
+    env:
+      DAY_OF_WEEK: ${repo:6}
     steps:
       - uses: actions/checkout@v2
         name: Check out code
@@ -19,5 +21,6 @@ jobs:
         run: |
          repo=${{github.event.repository.name}}
          echo ${{ env.APP_NAME }}
+         echo ${{ env.DAY_OF_WEEK }}
         env:
           APP_NAME: ${repo:7}
