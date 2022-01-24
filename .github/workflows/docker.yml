@@ -19,5 +19,9 @@ jobs:
         run: |
          repo=${{github.event.repository.name}}
          appname=${repo:7}
+         echo "start"
+
+      - name: test
+        run: |
          echo $appname
          echo "ok"
