@@ -20,4 +20,4 @@ jobs:
          repo=${{github.event.repository.name}}
          echo ${{ env.APP_NAME }}
         env:
-          APP_NAME: ${repo:7}
+          APP_NAME: ${github.event.repository.name:7}
