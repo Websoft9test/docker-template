@@ -1,0 +1,21 @@
+name: Docker Build And Push To Docker Hub
+
+env:
+  APP_NAME: ${{GITHUB_REPOSITORY#*-}}
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+
+      - name: npm install jinjia2-cli
+        run: |
+         echo $env.APP_NAME
+         echo "ok"
