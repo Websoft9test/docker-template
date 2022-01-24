@@ -1,7 +1,7 @@
 name: Docker Build And Push To Docker Hub
 
 env:
-  APP_NAME: ${{GITHUB_REPOSITORY}}
+  APP_NAME: ${{ github.repository }}
 
 on:
   push:
