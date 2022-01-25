@@ -1,6 +1,6 @@
 ## Github Action
 
-### Github的内置变量汇总
+### Github的内置变量汇总(push commit)
 ```
 {
   "token": "***",
