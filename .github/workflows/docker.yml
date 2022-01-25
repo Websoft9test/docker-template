@@ -23,7 +23,7 @@ jobs:
         run: |
          tmptag=${{ github.ref_name}}
          arraytag=(${tmptag//./})
-         TAGNAME=${arraytag[0]},${arraytag[1]},${{ github.ref_name}},latest
+         TAGNAME=${arraytag[0]},${arraytag[0]}.${arraytag[1]},${{ github.ref_name}},latest
          
          echo $TAGNAME
 
