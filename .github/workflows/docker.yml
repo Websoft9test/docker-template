@@ -18,4 +18,6 @@ jobs:
       - name: npm install jinjia2-cli
         run: |
          echo 333
+         echo ${{GITHUB_REF}}
+         echo ${{GITHUB_REF_NAME}}
          echo ${{ env.APP_NAME }}
