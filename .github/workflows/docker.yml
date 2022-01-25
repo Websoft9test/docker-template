@@ -19,8 +19,9 @@ jobs:
          
       - name: npm install jinjia2-cli
         run: |
-         repo=${{github.event.repository.name}}
+         echo 111
          echo ${{ env.APP_NAME }}
-         echo ${{ env.DAY_OF_WEEK }}
         env:
+          repo: ${{github.event.repository.name}}
           APP_NAME: ${repo:7}
+          
