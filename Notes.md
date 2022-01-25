@@ -1,6 +1,7 @@
 ## Github Action
 
 ### Github的内置变量汇总
+```
 {
   "token": "***",
   "job": "build",
@@ -128,3 +129,4 @@
   "path": "/home/runner/work/_temp/_runner_file_commands/add_path_7954e66a-0b85-4f2c-9d9b-a923628555d4",
   "env": "/home/runner/work/_temp/_runner_file_commands/set_env_7954e66a-0b85-4f2c-9d9b-a923628555d4"
 }
+```
