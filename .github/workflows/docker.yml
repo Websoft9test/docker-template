@@ -12,11 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       repo: ${{github.event.repository.name}}
-      APP_NAME: ${repo:6}
+      APP_NAME: ${repo:3}
       TAGNAME: latest
     steps:
       - uses: actions/checkout@v2
         name: Check out code
+ 
+      - name: Get all tags
+        run: |
+         echo ${{env.APP_NAME}}
          
       - name: Get all tags
         if: ${{ github.ref_name != 'main' }}
