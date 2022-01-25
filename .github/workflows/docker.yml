@@ -3,6 +3,8 @@ name: Docker Build And Push To Docker Hub
 on:
   push:
     branches: [ main ]
+    tags:
+     - v**
 
 jobs:
   build:
