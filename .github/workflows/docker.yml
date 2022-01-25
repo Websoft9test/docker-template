@@ -13,7 +13,7 @@ jobs:
     name: Build Docker image
     runs-on: ubuntu-latest
     env:
-      TAGNAME: latest
+      TAGS: latest
     steps:
       - uses: actions/checkout@v2
         name: Check out code
@@ -21,22 +21,23 @@ jobs:
       - name: Set appname
         run: |
           repo=${{github.event.repository.name}}
-          APP_NAME=${repo:7}
+          arrayrepo=(${repo//-/ })
+          APP_NAME=${arrayrepo[1]}
           echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
         
       - name: Get all tags when release a tag
-        if: ${{ github.ref_name != 'main' }}
+        if: contains(github.ref_name, 'v')
         run: |
          tmptag=${{ github.ref_name}}
          arraytag=(${tmptag//./ })
-         TAGNAME=${arraytag[0]},${arraytag[0]}.${arraytag[1]},${{ github.ref_name}},latest
-         echo "TAGNAME=${TAGNAME}" >> $GITHUB_ENV
+         TAGS=${arraytag[0]},${arraytag[0]}.${arraytag[1]},${{ github.ref_name}},latest
+         echo "TAGS=${TAGS}" >> $GITHUB_ENV
          
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: Build & push Docker image
         with:
           image: websoft9dev/${{env.APP_NAME}}
-          tags: ${{env.TAGNAME}}
+          tags: ${{env.TAGS}}
           registry: docker.io
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
