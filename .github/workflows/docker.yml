@@ -19,11 +19,11 @@ jobs:
         name: Check out code
          
       - name: Get all tags
-        if: ${{ github.ref != 'refs/heads/main' }}
+        if: ${{ github.ref_name != 'main' }}
         run: |
-         tmptag=${{ github.ref}}
+         tmptag=${{ github.ref_name}}
          arraytag=(${tmptag//./})
-         TAGNAME=${arraytag[0]},${arraytag[1]},${{ github.ref}},latest
+         TAGNAME=${arraytag[0]},${arraytag[1]},${{ github.ref_name}},latest
          
          echo $TAGNAME
 
