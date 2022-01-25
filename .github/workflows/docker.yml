@@ -12,16 +12,13 @@ jobs:
     name: Build Docker image
     runs-on: ubuntu-latest
     env:
-      DAY_OF_WEEK: ${repo:6}
+      repo: ${{github.event.repository.name}}
+      APP_NAME: ${repo:7}
     steps:
       - uses: actions/checkout@v2
         name: Check out code
          
       - name: npm install jinjia2-cli
         run: |
-         echo 111
+         echo 222
          echo ${{ env.APP_NAME }}
-        env:
-          repo: ${{github.event.repository.name}}
-          APP_NAME: ${repo:7}
-          
