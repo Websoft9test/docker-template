@@ -13,12 +13,17 @@ jobs:
     env:
       repo: ${{github.event.repository.name}}
       APP_NAME: ${repo:6}
+      TAGNAME: latest
     steps:
       - uses: actions/checkout@v2
         name: Check out code
          
-      - name: npm install jinjia2-cli
+      - name: Get all tags
+        if: ${{ github.ref != 'refs/heads/main' }}
         run: |
-         echo ${{github.ref_name}}
-         echo '${{ toJSON(github) }}'
-         echo ${{ env.APP_NAME }}
+         tmptag=${{ github.ref}}
+         arraytag=(${tmptag//./})
+         TAGNAME=${arraytag[0]},${arraytag[1]},${{ github.ref}},latest
+         
+         echo $TAGNAME
+
