@@ -3,30 +3,41 @@ name: Docker Build And Push To Docker Hub
 on:
   push:
     branches: [ main ]
+    paths: 
+      - 'Dockerfile'
+      - 'cmd.sh'
     tags:
-     - v**
-
+      - v**
 jobs:
   build:
     name: Build Docker image
     runs-on: ubuntu-latest
     env:
-      repo: ${{github.event.repository.name}}
-      APP_NAME: ${repo:3}
       TAGNAME: latest
     steps:
       - uses: actions/checkout@v2
         name: Check out code
- 
-      - name: Get all tags
+
+      - name: Set appname
         run: |
-         echo ${{env.APP_NAME}}
-         
-      - name: Get all tags
+          repo=${{github.event.repository.name}}
+          APP_NAME=${repo:7}
+          echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
+        
+      - name: Get all tags when release a tag
         if: ${{ github.ref_name != 'main' }}
         run: |
          tmptag=${{ github.ref_name}}
          arraytag=(${tmptag//./ })
          TAGNAME=${arraytag[0]},${arraytag[0]}.${arraytag[1]},${{ github.ref_name}},latest
-         echo $TAGNAME
-
+         echo "TAGNAME=${TAGNAME}" >> $GITHUB_ENV
+         
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Docker image
+        with:
+          image: websoft9dev/${{env.APP_NAME}}
+          tags: ${{env.TAGNAME}}
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
