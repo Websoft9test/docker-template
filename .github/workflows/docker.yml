@@ -6,6 +6,7 @@ on:
     paths: 
       - 'Dockerfile'
       - 'cmd.sh'
+      - 'entrypoint.sh'
     tags:
       - v**
 jobs:
