@@ -87,11 +87,12 @@ Yes, you should modify all database password and application password at docker-
 #### Docker runing failed for the reason that port conflict?
 You should modify ports at [docker-compose file](docker-compose-production.yml) and docker-compose again
 
+{% if faqs is defined -%}
 {% for faq in faqs -%}
 #### {{faq.question_en}}  
 {{faq.answer_en}}  
-
 {% endfor -%}  
+{% endif -%}
 
 
 ### Usage instructions
