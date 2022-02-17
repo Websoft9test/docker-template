@@ -93,13 +93,12 @@ sudo docker-compose up -d
 
 修改 [docker-compose]({{compose_file}}) 文件中冲突的端口，然后再启动容器
 
-
+{% if faqs is defined -%}
 {% for faq in faqs -%}
 #### {{faq.question_cn}}  
 {{faq.answer_cn}}  
-
 {% endfor -%}  
-  
+{% endif -%}
 
 ### 使用说明
 
@@ -118,6 +117,7 @@ sudo docker-compose up -d
 
 {% endif -%}
 
+{% if services is defined -%}
 #### 服务和端口
 
 | 名称 | 端口号 | 用途 |  必要性 |
@@ -125,6 +125,7 @@ sudo docker-compose up -d
 {% for service in services -%}
 | {{service.name}} | {{service.port}} | {{service.description_cn}} | {{service.required}} |
 {% endfor -%}  
+{% endif -%}
   
 
 ## 文档
