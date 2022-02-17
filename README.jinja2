@@ -111,6 +111,7 @@ By default, the available users are:
 
 {% endif -%}
 
+{% if services is defined -%}
 #### Services and Ports
 
 | Service | Port | Use |  Necessity |
@@ -118,6 +119,7 @@ By default, the available users are:
 {% for service in services -%}
 | {{service.name}} | {{service.port}} | {{service.description_en}} | {{service.required}} |
 {% endfor -%} 
+{% endif -%}
 
 ## Documentation
 
