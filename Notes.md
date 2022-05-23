@@ -1,132 +1,36 @@
-## Github Action
+### FAQ
 
-### Github的内置变量汇总(push commit)
+#### 除了dockerhub和githuab，那有哪些免费的镜像发布平台？
+
+云平台可免费公开发布docker镜像，通过个人账号上传了一个测试镜像
 ```
-{
-  "token": "***",
-  "job": "build",
-  "ref": "refs/heads/main",
-  "sha": "ef2d64c20eed7388da9423b3a9213df2506dbc84",
-  "repository": "Websoft9/docker-template",
-  "repository_owner": "Websoft9",
-  "repositoryUrl": "git://github.com/Websoft9/docker-template.git",
-  "run_id": "1743231303",
-  "run_number": "24",
-  "retention_days": "90",
-  "run_attempt": "1",
-  "actor": "qiaofeng1227",
-  "workflow": "Docker Build And Push To Docker Hub",
-  "head_ref": "",
-  "base_ref": "",
-  "event_name": "push",
-  "event": {
-    "after": "ef2d64c20eed7388da9423b3a9213df2506dbc84",
-    "base_ref": null,
-    "before": "c195b6c8964209667f921f48e023670997eab721",
-    "commits": [
-      {
-        "author": {
-          "email": "76487013@qq.com",
-          "name": "qiaofeng1227",
-          "username": "qiaofeng1227"
-        },
-        "committer": {
-          "email": "noreply@github.com",
-          "name": "GitHub",
-          "username": "web-flow"
-        },
-        "distinct": true,
-        "id": "ef2d64c20eed7388da9423b3a9213df2506dbc84",
-        "message": "Update docker.yml",
-        "timestamp": "2022-01-25T10:13:50+08:00",
-        "tree_id": "595e9167738b5a25fefdb7253ce691c66dc35d6c",
-        "url": "https://github.com/Websoft9/docker-template/commit/ef2d64c20eed7388da9423b3a9213df2506dbc84"
-      }
-    ],
-    "compare": "https://github.com/Websoft9/docker-template/compare/c195b6c89642...ef2d64c20eed",
-    "created": false,
-    "deleted": false,
-    "forced": false,
-    "head_commit": {
-      "author": {
-        "email": "76487013@qq.com",
-        "name": "qiaofeng1227",
-        "username": "qiaofeng1227"
-      },
-      "committer": {
-        "email": "noreply@github.com",
-        "name": "GitHub",
-        "username": "web-flow"
-      },
-      "distinct": true,
-      "id": "ef2d64c20eed7388da9423b3a9213df2506dbc84",
-      "message": "Update docker.yml",
-      "timestamp": "2022-01-25T10:13:50+08:00",
-      "tree_id": "595e9167738b5a25fefdb7253ce691c66dc35d6c",
-      "url": "https://github.com/Websoft9/docker-template/commit/ef2d64c20eed7388da9423b3a9213df2506dbc84"
-    },
-    "organization": {
-      "avatar_url": "https://avatars.githubusercontent.com/u/36851177?v=4",
-        "type": "Organization",
-        "url": "https://api.github.com/users/Websoft9"
-      },
-      "private": false,
-      "pulls_url": "https://api.github.com/repos/Websoft9/docker-template/pulls{/number}",
-      "pushed_at": 1643076830,
-      "releases_url": "https://api.github.com/repos/Websoft9/docker-template/releases{/id}",
-      "size": 453,
-      "ssh_url": "git@github.com:Websoft9/docker-template.git",
-      "stargazers": 1,
-      "stargazers_count": 1,
-      "stargazers_url": "https://api.github.com/repos/Websoft9/docker-template/stargazers",
-      "statuses_url": "https://api.github.com/repos/Websoft9/docker-template/statuses/{sha}",
-      "subscribers_url": "https://api.github.com/repos/Websoft9/docker-template/subscribers",
-      "subscription_url": "https://api.github.com/repos/Websoft9/docker-template/subscription",
-      "svn_url": "https://github.com/Websoft9/docker-template",
-      "tags_url": "https://api.github.com/repos/Websoft9/docker-template/tags",
-      "teams_url": "https://api.github.com/repos/Websoft9/docker-template/teams",
-      "topics": [],
-      "trees_url": "https://api.github.com/repos/Websoft9/docker-template/git/trees{/sha}",
-      "updated_at": "2022-01-08T07:58:32Z",
-      "url": "https://github.com/Websoft9/docker-template",
-      "visibility": "public",
-      "watchers": 1,
-      "watchers_count": 1
-    },
-    "sender": {
-      "avatar_url": "https://avatars.githubusercontent.com/u/43192516?v=4",
-      "events_url": "https://api.github.com/users/qiaofeng1227/events{/privacy}",
-      "followers_url": "https://api.github.com/users/qiaofeng1227/followers",
-      "following_url": "https://api.github.com/users/qiaofeng1227/following{/other_user}",
-      "gists_url": "https://api.github.com/users/qiaofeng1227/gists{/gist_id}",
-      "gravatar_id": "",
-      "html_url": "https://github.com/qiaofeng1227",
-      "id": 43192516,
-      "login": "qiaofeng1227",
-      "node_id": "MDQ6VXNlcjQzMTkyNTE2",
-      "organizations_url": "https://api.github.com/users/qiaofeng1227/orgs",
-      "received_events_url": "https://api.github.com/users/qiaofeng1227/received_events",
-      "repos_url": "https://api.github.com/users/qiaofeng1227/repos",
-      "site_admin": false,
-      "starred_url": "https://api.github.com/users/qiaofeng1227/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/qiaofeng1227/subscriptions",
-      "type": "User",
-      "url": "https://api.github.com/users/qiaofeng1227"
-    }
-  },
-  "server_url": "https://github.com",
-  "api_url": "https://api.github.com",
-  "graphql_url": "https://api.github.com/graphql",
-  "ref_name": "main",
-  "ref_protected": true,
-  "ref_type": "branch",
-  "secret_source": "Actions",
-  "workspace": "/home/runner/work/docker-template/docker-template",
-  "action": "__run",
-  "event_path": "/home/runner/work/_temp/_github_workflow/event.json",
-  "action_repository": "",
-  "action_ref": "",
-  "path": "/home/runner/work/_temp/_runner_file_commands/add_path_7954e66a-0b85-4f2c-9d9b-a923628555d4",
-  "env": "/home/runner/work/_temp/_runner_file_commands/set_env_7954e66a-0b85-4f2c-9d9b-a923628555d4"
-}
+docker pull registry.cn-hongkong.aliyuncs.com/docker-services/discuzq
 ```
+
+### ENTRYPOINT和CMD在哪些情况下会运行其中命令或脚本？
+
+容器不管是初次启动或重启的时候，cmd和enterpoint都会执行
+
+### ENTRYPOINT和CMD和Dockefile的关系以及如何使用？
+
+shell模式和exec模式
+shell模式: 启动shell命令模式，如bash，sh。shell模式下的环境变量可用，如$PATH
+exec模式: 单独的进程运行模式，没有环境变量。["echo","1111"]也会报错，因为不知道echo命令，可以采用["/bin/echo","1111"];或者把shell单做一个可执行程序["bash","-c","echo 1111"]`
+
+ENTRYPOINT ["executable", "param1", "param2"] exec执行模式   a
+ENTRYPOINT command param1 param2  shell执行模式   b
+
+CMD ["executable","param1","param2"] 单独执行模式 c
+CMD ["param1","param2"] 和enterpoint联用模式,不能单独存在 d
+CMD command param1 param2  shell执行模式 e
+
+解释：
+ - 如果当dockerfile的ENTRYPOINT使用了a，你想使用cmd做额外命令时，只有作为a的参数才会起作用，就是说只能使用d。譬如即使你command使用定义 ["echo", "1111",">>","/tmp/test1"] 该命令无法执行
+ - 如果当dockerfile的ENTRYPOINT使用了b，即使你启动容器时用command命令，那也不会起任何作用
+ - 如果dockerfile 没有ENTRYPOINT，只有CMD。不管使用c或 e,这个时候你在docker-compose文件可以用 c和 e来覆盖启动命令
+
+
+如何让容器启动命令只执行一次？
+a,容器内部解决
+HEALTHCHECK 实现容器启动后仅执行一次的模式
+b,创建别名同功能容器，临时容器追加额外操作，执行完退出，执行结果保存在数据库或持久化文件
