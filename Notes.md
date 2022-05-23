@@ -17,12 +17,12 @@ shell模式和exec模式
 shell模式: 启动shell命令模式，如bash，sh。shell模式下的环境变量可用，如$PATH
 exec模式: 单独的进程运行模式，没有环境变量。["echo","1111"]也会报错，因为不知道echo命令，可以采用["/bin/echo","1111"];或者把shell单做一个可执行程序["bash","-c","echo 1111"]`
 
-ENTRYPOINT ["executable", "param1", "param2"] exec执行模式   a
-ENTRYPOINT command param1 param2  shell执行模式   b
+ENTRYPOINT ["executable", "param1", "param2"] exec执行模式   a  
+ENTRYPOINT command param1 param2  shell执行模式   b  
 
-CMD ["executable","param1","param2"] 单独执行模式 c
-CMD ["param1","param2"] 和enterpoint联用模式,不能单独存在 d
-CMD command param1 param2  shell执行模式 e
+CMD ["executable","param1","param2"] 单独执行模式 c  
+CMD ["param1","param2"] 和enterpoint联用模式,不能单独存在 d  
+CMD command param1 param2  shell执行模式 e  
 
 解释：
  - 如果当dockerfile的ENTRYPOINT使用了a，你想使用cmd做额外命令时，只有作为a的参数才会起作用，就是说只能使用d。譬如即使你command使用定义 ["echo", "1111",">>","/tmp/test1"] 该命令无法执行
