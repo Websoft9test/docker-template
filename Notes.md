@@ -1,4 +1,4 @@
-### FAQ
+## FAQ
 
 #### 除了dockerhub和githuab，那有哪些免费的镜像发布平台？
 
@@ -7,11 +7,11 @@
 docker pull registry.cn-hongkong.aliyuncs.com/docker-services/discuzq
 ```
 
-### ENTRYPOINT和CMD在哪些情况下会运行其中命令或脚本？
+#### ENTRYPOINT和CMD在哪些情况下会运行其中命令或脚本？
 
 容器不管是初次启动或重启的时候，cmd和enterpoint都会执行
 
-### ENTRYPOINT和CMD和Dockefile的关系以及如何使用？
+#### ENTRYPOINT和CMD和Dockefile的关系以及如何使用？
 
 shell模式和exec模式
 shell模式: 启动shell命令模式，如bash，sh。shell模式下的环境变量可用，如$PATH
