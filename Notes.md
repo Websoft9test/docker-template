@@ -32,7 +32,7 @@ CMD command param1 param2  shell执行模式 e
 
 #### "$@"的应用场景和作用
 
-`$@` 只用于ENTRYPOINT和CMD混合使用的场景，一般来说，"$@"大多用于entrypoint.sh，放在文件末，通过 `exec "$@"`使用 
-不使用"$@"，CMD永远只能是ENTRYPOINT的参数，仅仅运行ENTRYPOINT。
+`$@` 只用于ENTRYPOINT和CMD混合使用的场景，一般来说，"$@"大多用于entrypoint.sh，放在文件末，通过 `exec "$@"`使用  
+不使用"$@"，CMD永远只能是ENTRYPOINT的参数，仅仅运行ENTRYPOINT。  
 使用"$@"，ENTRYPOINT执行完成后，可以把进程交给command的指令或者脚本。
 
