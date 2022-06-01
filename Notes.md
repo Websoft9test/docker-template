@@ -30,7 +30,7 @@ CMD command param1 param2  shell执行模式 e
  - 如果dockerfile 没有ENTRYPOINT，只有CMD。不管使用c或 e,这个时候你在docker-compose文件可以用 c和 e来覆盖启动命令
 
 
-如何让容器启动命令只执行一次？  
-a,容器内部解决  
-HEALTHCHECK 实现容器启动后仅执行一次的模式  
-b,创建别名同功能容器，临时容器追加额外操作，执行完退出，执行结果保存在数据库或持久化文件  
+#### "$@"的应用场景和作用
+
+一般来说，"$@"大多用于entrypoint.sh，放在文件末，通过 `exec "$@"`使用  
+所用是将容器进程控制权交给entrypoint.sh的参数，也就是command的指令或者脚本
