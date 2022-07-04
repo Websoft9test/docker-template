@@ -53,7 +53,8 @@ services:
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
 networks:
   default:
-      name: ${APP_NAME}
+    name: ${APP_NETWORK}
+    external: true
 
 volumes:
   mysql:
