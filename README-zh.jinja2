@@ -79,7 +79,8 @@ cd docker-{{name}}
 # {{comment.comment_cn}}  
 {% endfor -%}  
 {% endif -%}
-sudo docker-compose up -d
+sudo docker network create websoft9 
+sudo docker compose up -d
 ```
 
 ### 常见问题
